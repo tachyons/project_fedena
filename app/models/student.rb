@@ -487,35 +487,7 @@ class Student < ActiveRecord::Base
               end
             end
           else
-            unless level.full_course == true
-              scores = GroupedExamReport.find(:all, conditions: { student_id: id, score_type: 'c' })
-              unless scores.empty?
-                if level.marks_limit_type == 'upper'
-                  scores.select! do |s| (
-
-                    
-                    (if s.student.batch.gpa_enabled?
-                       (s.marks < level.gpa unless level.gpa.nil?)
-                                        end) or (s.marks < level.marks unless level.marks.nil?))
-                  end
-                elsif level.marks_limit_type == 'exact'
-                  scores.select! do |s| (
-
-                    (if s.student.batch.gpa_enabled?
-                       (s.marks == level.gpa unless level.gpa.nil?)
-                                        end) or (s.marks == level.marks unless level.marks.nil?))
-                  end
-                else
-                  scores.select! do |s| (
-
-                    (if s.student.batch.gpa_enabled?
-                       (s.marks >= level.gpa unless level.gpa.nil?)
-                     end) or (s.marks >= level.marks unless level.marks.nil?))
-                  end
-                end
-                return true unless scores.empty?
-              end
-            else
+            if level.full_course == true
               total_student_score = 0
               avg_student_score = 0
               marks = GroupedExamReport.find_all_by_student_id_and_score_type(id, 'c')
@@ -532,8 +504,32 @@ class Student < ActiveRecord::Base
                                   end) || (avg_student_score == level.marks unless level.marks.nil?)
                 else
                   return true if (avg_student_score >= level.gpa if batch.gpa_enabled? && level.gpa) ||
-                         (avg_student_score >= level.marks unless level.marks.nil?)
+                                 (avg_student_score >= level.marks unless level.marks.nil?)
                 end
+              end
+            else
+              scores = GroupedExamReport.find(:all, conditions: { student_id: id, score_type: 'c' })
+              unless scores.empty?
+                if level.marks_limit_type == 'upper'
+                  scores.select! do |s|
+                    (if s.student.batch.gpa_enabled?
+                       (s.marks < level.gpa unless level.gpa.nil?)
+                     end) or (s.marks < level.marks unless level.marks.nil?)
+                  end
+                elsif level.marks_limit_type == 'exact'
+                  scores.select! do |s|
+                    (if s.student.batch.gpa_enabled?
+                       (s.marks == level.gpa unless level.gpa.nil?)
+                     end) or (s.marks == level.marks unless level.marks.nil?)
+                  end
+                else
+                  scores.select! do |s|
+                    (if s.student.batch.gpa_enabled?
+                       (s.marks >= level.gpa unless level.gpa.nil?)
+                     end) or (s.marks >= level.marks unless level.marks.nil?)
+                  end
+                end
+                return true unless scores.empty?
               end
             end
           end

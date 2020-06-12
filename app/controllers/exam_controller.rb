@@ -638,24 +638,16 @@ class ExamController < ApplicationController
                     @scores.select! do |s| (
 
                       
-                      (if @ranking_level.marks_limit_type == 'upper'
-                         s.marks < @ranking_level.gpa
-                       end) or (if @ranking_level.marks_limit_type == 'lower'
-                                                                                                         s.marks >= @ranking_level.gpa
-                                                                                                       end) or (if @ranking_level.marks_limit_type == 'exact'
-                                                                                                                                                                                          s.marks == @ranking_level.gpa
+                      (s.marks < @ranking_level.gpa if @ranking_level.marks_limit_type == 'upper') or (s.marks >= @ranking_level.gpa if @ranking_level.marks_limit_type == 'lower') or (if @ranking_level.marks_limit_type == 'exact'
+                                                                                                                  s.marks == @ranking_level.gpa
                                                                                                                                                                                                             end))
                     end
                   else
                     @scores.select! do |s| (
 
                       
-                      (if @ranking_level.marks_limit_type == 'upper'
-                         s.marks < @ranking_level.marks
-                       end) or (if @ranking_level.marks_limit_type == 'lower'
-                                                                                                           s.marks >= @ranking_level.marks
-                                                                                                         end) or (if @ranking_level.marks_limit_type == 'exact'
-                                                                                                                                                                                              s.marks == @ranking_level.marks
+                      (s.marks < @ranking_level.marks if @ranking_level.marks_limit_type == 'upper') or (s.marks >= @ranking_level.marks if @ranking_level.marks_limit_type == 'lower') or (if @ranking_level.marks_limit_type == 'exact'
+                                                                                                                    s.marks == @ranking_level.marks
                                                                                                                                                                                                                 end))
                     end
                   end
@@ -678,24 +670,16 @@ class ExamController < ApplicationController
                     @scores.select! do |s| (
 
                       
-                      (if @ranking_level.marks_limit_type == 'upper'
-                         s.marks < @ranking_level.gpa
-                       end) or (if @ranking_level.marks_limit_type == 'lower'
-                                                                                                         s.marks >= @ranking_level.gpa
-                                                                                                       end) or (if @ranking_level.marks_limit_type == 'exact'
-                                                                                                                                                                                          s.marks == @ranking_level.gpa
+                      (s.marks < @ranking_level.gpa if @ranking_level.marks_limit_type == 'upper') or (s.marks >= @ranking_level.gpa if @ranking_level.marks_limit_type == 'lower') or (if @ranking_level.marks_limit_type == 'exact'
+                                                                                                                  s.marks == @ranking_level.gpa
                                                                                                                                                                                                             end))
                     end
                   else
                     @scores.select! do |s| (
 
                       
-                      (if @ranking_level.marks_limit_type == 'upper'
-                         s.marks < @ranking_level.marks
-                       end) or (if @ranking_level.marks_limit_type == 'lower'
-                                                                                                           s.marks >= @ranking_level.marks
-                                                                                                         end) or (if @ranking_level.marks_limit_type == 'exact'
-                                                                                                                                                                                              s.marks == @ranking_level.marks
+                      (s.marks < @ranking_level.marks if @ranking_level.marks_limit_type == 'upper') or (s.marks >= @ranking_level.marks if @ranking_level.marks_limit_type == 'lower') or (if @ranking_level.marks_limit_type == 'exact'
+                                                                                                                    s.marks == @ranking_level.marks
                                                                                                                                                                                                                 end))
                     end
                   end
@@ -725,24 +709,16 @@ class ExamController < ApplicationController
                     @scores.select! do |s| (
 
                       
-                      (if @ranking_level.marks_limit_type == 'upper'
-                         s.marks < @ranking_level.gpa
-                       end) or (if @ranking_level.marks_limit_type == 'lower'
-                                                                                                         s.marks >= @ranking_level.gpa
-                                                                                                       end) or (if @ranking_level.marks_limit_type == 'exact'
-                                                                                                                                                                                          s.marks == @ranking_level.gpa
+                      (s.marks < @ranking_level.gpa if @ranking_level.marks_limit_type == 'upper') or (s.marks >= @ranking_level.gpa if @ranking_level.marks_limit_type == 'lower') or (if @ranking_level.marks_limit_type == 'exact'
+                                                                                                                  s.marks == @ranking_level.gpa
                                                                                                                                                                                                             end))
                     end
                   else
                     @scores.select! do |s| (
 
                       
-                      (if @ranking_level.marks_limit_type == 'upper'
-                         s.marks < @ranking_level.marks
-                       end) or (if @ranking_level.marks_limit_type == 'lower'
-                                                                                                           s.marks >= @ranking_level.marks
-                                                                                                         end) or (if @ranking_level.marks_limit_type == 'exact'
-                                                                                                                                                                                              s.marks == @ranking_level.marks
+                      (s.marks < @ranking_level.marks if @ranking_level.marks_limit_type == 'upper') or (s.marks >= @ranking_level.marks if @ranking_level.marks_limit_type == 'lower') or (if @ranking_level.marks_limit_type == 'exact'
+                                                                                                                    s.marks == @ranking_level.marks
                                                                                                                                                                                                                 end))
                     end
                   end
@@ -845,24 +821,16 @@ class ExamController < ApplicationController
           @scores.select! do |s| (
 
             
-            (if @ranking_level.marks_limit_type == 'upper'
-               s.marks < @ranking_level.gpa
-             end) or (if @ranking_level.marks_limit_type == 'lower'
-                                                                                               s.marks >= @ranking_level.gpa
-                                                                                             end) or (if @ranking_level.marks_limit_type == 'exact'
-                                                                                                                                                                                s.marks == @ranking_level.gpa
+            (s.marks < @ranking_level.gpa if @ranking_level.marks_limit_type == 'upper') or (s.marks >= @ranking_level.gpa if @ranking_level.marks_limit_type == 'lower') or (if @ranking_level.marks_limit_type == 'exact'
+                                                                                                        s.marks == @ranking_level.gpa
                                                    end))
           end
         else
           @scores.select! do |s| (
 
             
-            (if @ranking_level.marks_limit_type == 'upper'
-               s.marks < @ranking_level.marks
-             end) or (if @ranking_level.marks_limit_type == 'lower'
-                                                                                                 s.marks >= @ranking_level.marks
-                                                                                               end) or (if @ranking_level.marks_limit_type == 'exact'
-                                                                                                                                                                                    s.marks == @ranking_level.marks
+            (s.marks < @ranking_level.marks if @ranking_level.marks_limit_type == 'upper') or (s.marks >= @ranking_level.marks if @ranking_level.marks_limit_type == 'lower') or (if @ranking_level.marks_limit_type == 'exact'
+                                                                                                          s.marks == @ranking_level.marks
                                                    end))
           end
         end
@@ -879,24 +847,16 @@ class ExamController < ApplicationController
             @scores.select! do |s| (
 
               
-              (if @ranking_level.marks_limit_type == 'upper'
-                 s.marks < @ranking_level.gpa
-               end) or (if @ranking_level.marks_limit_type == 'lower'
-                                                                                                 s.marks >= @ranking_level.gpa
-                                                                                               end) or (if @ranking_level.marks_limit_type == 'exact'
-                                                                                                                                                                                  s.marks == @ranking_level.gpa
+              (s.marks < @ranking_level.gpa if @ranking_level.marks_limit_type == 'upper') or (s.marks >= @ranking_level.gpa if @ranking_level.marks_limit_type == 'lower') or (if @ranking_level.marks_limit_type == 'exact'
+                                                                                                          s.marks == @ranking_level.gpa
                                                      end))
             end
           else
             @scores.select! do |s| (
 
               
-              (if @ranking_level.marks_limit_type == 'upper'
-                 s.marks < @ranking_level.marks
-               end) or (if @ranking_level.marks_limit_type == 'lower'
-                                                                                                   s.marks >= @ranking_level.marks
-                                                                                                 end) or (if @ranking_level.marks_limit_type == 'exact'
-                                                                                                                                                                                      s.marks == @ranking_level.marks
+              (s.marks < @ranking_level.marks if @ranking_level.marks_limit_type == 'upper') or (s.marks >= @ranking_level.marks if @ranking_level.marks_limit_type == 'lower') or (if @ranking_level.marks_limit_type == 'exact'
+                                                                                                            s.marks == @ranking_level.marks
                                                                                                                                                                                                         end))
             end
           end
@@ -921,24 +881,16 @@ class ExamController < ApplicationController
             @scores.select! do |s| (
 
               
-              (if @ranking_level.marks_limit_type == 'upper'
-                 s.marks < @ranking_level.gpa
-               end) or (if @ranking_level.marks_limit_type == 'lower'
-                                                                                                 s.marks >= @ranking_level.gpa
-                                                                                               end) or (if @ranking_level.marks_limit_type == 'exact'
-                                                                                                                                                                                  s.marks == @ranking_level.gpa
+              (s.marks < @ranking_level.gpa if @ranking_level.marks_limit_type == 'upper') or (s.marks >= @ranking_level.gpa if @ranking_level.marks_limit_type == 'lower') or (if @ranking_level.marks_limit_type == 'exact'
+                                                                                                          s.marks == @ranking_level.gpa
                                                      end))
             end
           else
             @scores.select! do |s| (
 
               
-              (if @ranking_level.marks_limit_type == 'upper'
-                 s.marks < @ranking_level.marks
-               end) or (if @ranking_level.marks_limit_type == 'lower'
-                                                                                                   s.marks >= @ranking_level.marks
-                                                                                                 end) or (if @ranking_level.marks_limit_type == 'exact'
-                                                                                                                                                                                      s.marks == @ranking_level.marks
+              (s.marks < @ranking_level.marks if @ranking_level.marks_limit_type == 'upper') or (s.marks >= @ranking_level.marks if @ranking_level.marks_limit_type == 'lower') or (if @ranking_level.marks_limit_type == 'exact'
+                                                                                                            s.marks == @ranking_level.marks
                                                                                                                                                                                                         end))
             end
           end
