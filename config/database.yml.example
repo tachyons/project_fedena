@@ -1,26 +1,22 @@
 default: &default
-  host: 127.0.0.1
   adapter: mysql2
+  encoding: utf8
   init_command: "SET @@SESSION.sql_mode = ''"
-  port: <%= ENV['DB_PORT'] || 3306 %>
+  port: <%= ENV['MYSQL_PORT'] || 3306 %>
+  host: <%= ENV['MYSQL_HOST'] || '127.0.0.1' %>
+  username: <%= ENV['MYSQL_USER'] || 'fedena' %>
+  password: <%= ENV['MYSQL_PASSWORD'] || 'fedena' %>
 
 development:
   <<: *default
   database: fedena
-  username: fedena
-  password: fedena 
 
 test: &test
   <<: *default
-  database: fedena
-  username: fedena
-  password: fedena 
+  database: fedena_test
 
 production:
   <<: *default
-  host: localhost
-  database: fedena
-  username: fedena
-  password: fedena
+  database: fedena_production
 cucumber:
   <<: *test
