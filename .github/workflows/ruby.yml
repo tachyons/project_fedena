@@ -47,4 +47,6 @@ jobs:
         cp config/database.yml.example config/database.yml
         bundle exec rake db:schema:load
     - name: Run tests
+      env:
+        DB_PORT: ${{ job.services.mysql.ports[3306] }}
       run:  ./script/runner "puts User.count"
