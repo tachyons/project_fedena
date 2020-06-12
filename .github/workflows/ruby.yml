@@ -47,4 +47,4 @@ jobs:
         cp config/database.yml.example config/database.yml
         bundle exec rake db:schema:load
     - name: Run tests
-      run:  bundle exec ./script/runner "puts User.count"
+      run:  ./script/runner "puts User.count"
