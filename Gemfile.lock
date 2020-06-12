@@ -1,29 +1,44 @@
+GIT
+  remote: https://github.com/makandra/rails.git
+  revision: 3ce754b1f962a181a0d9fab6cc1a007488f06b82
+  branch: 2-3-lts
+  specs:
+    actionmailer (2.3.18.29)
+      actionpack (= 2.3.18.29)
+    actionpack (2.3.18.29)
+      activesupport (= 2.3.18.29)
+      rack (< 1.5)
+    activerecord (2.3.18.29)
+      activesupport (= 2.3.18.29)
+    activeresource (2.3.18.29)
+      activesupport (= 2.3.18.29)
+    activesupport (2.3.18.29)
+    rails (2.3.18.29)
+      actionmailer (= 2.3.18.29)
+      actionpack (= 2.3.18.29)
+      activerecord (= 2.3.18.29)
+      activeresource (= 2.3.18.29)
+      activesupport (= 2.3.18.29)
+      railslts-version (= 2.3.18.29)
+      railties (= 2.3.18.29)
+    railslts-version (2.3.18.29)
+    railties (2.3.18.29)
+      actionpack (= 2.3.18.29)
+      activesupport (= 2.3.18.29)
+      rake (>= 0.8.3, < 11)
+
 GEM
   remote: https://rubygems.org/
   specs:
-    actionmailer (2.3.5)
-      actionpack (= 2.3.5)
-    actionpack (2.3.5)
-      activesupport (= 2.3.5)
-      rack (~> 1.0.0)
-    activerecord (2.3.5)
-      activesupport (= 2.3.5)
-    activeresource (2.3.5)
-      activesupport (= 2.3.5)
-    activesupport (2.3.5)
+    activerecord-mysql2-adapter (0.0.3)
+      mysql2
     declarative_authorization (0.5.7)
     diff-lcs (1.2.5)
     i18n (0.4.2)
-    mysql (2.9.1)
-    rack (1.0.1)
-    rails (2.3.5)
-      actionmailer (= 2.3.5)
-      actionpack (= 2.3.5)
-      activerecord (= 2.3.5)
-      activeresource (= 2.3.5)
-      activesupport (= 2.3.5)
-      rake (>= 0.8.3)
-    rake (0.8.7)
+    mysql2 (0.5.3)
+    power_assert (1.1.1)
+    rack (1.4.7)
+    rake (10.5.0)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
       rspec-expectations (~> 3.4.0)
@@ -40,18 +55,30 @@ GEM
     rush (0.6.8)
       session
     session (3.2.0)
+    test-unit (3.2.7)
+      power_assert
+    wicked_pdf (0.9.1)
+      rails
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  actionmailer!
+  actionpack!
+  activerecord!
+  activerecord-mysql2-adapter
+  activeresource!
+  activesupport!
   declarative_authorization (~> 0.5.1)
   i18n (~> 0.4.2)
-  mysql
-  rails (= 2.3.5)
-  rake (~> 0.8.7)
+  rails (~> 2.3.18)!
+  railslts-version!
+  railties!
   rspec
   rush (~> 0.6.7)
+  test-unit
+  wicked_pdf (= 0.9.1)
 
 BUNDLED WITH
-   1.10.2
+   1.17.3

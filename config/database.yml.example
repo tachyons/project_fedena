@@ -1,6 +1,6 @@
 development:
       host: localhost
-      adapter: mysql
+      adapter: mysql2
       database: fedena
       port: 3306
       username: fedena
