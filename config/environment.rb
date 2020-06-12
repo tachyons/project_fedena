@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), 'boot')
+require_relative '../config/boot.rb'
 
 Rails::Initializer.run do |config|
   config.time_zone = 'UTC'
