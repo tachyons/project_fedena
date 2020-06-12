@@ -7,6 +7,7 @@ gem "activerecord-mysql2-adapter"
 gem 'rush', '~> 0.6.7'
 gem 'declarative_authorization','~> 0.5.1'
 # gem 'test-unit'
+gem 'pry-rails'
 git 'https://github.com/makandra/rails.git', :branch => '2-3-lts' do
   gem 'rails', '~>2.3.18'
   gem 'actionmailer',     :require => false

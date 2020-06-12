@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-
 RAILS_HOME = File.expand_path(File.join(File.dirname(__FILE__),".."))
 BDRB_HOME = File.join(RAILS_HOME,"vendor","plugins","backgroundrb")
 WORKER_ROOT = File.join(RAILS_HOME,"lib","workers")

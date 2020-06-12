@@ -1,4 +1,3 @@
-
 Factory.define :employee_user, :class => User do |u|
   u.sequence(:username) { |n| "emp#{n}" }
   u.password            { |u1| "#{u1.username}123" }
