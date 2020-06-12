@@ -5,7 +5,7 @@ gem 'i18n', '~> 0.4.2'
 gem 'mysql'
 gem 'rush', '~> 0.6.7'
 gem 'declarative_authorization','~> 0.5.1'
-gem 'rails', '= 2.3.5' #, :require => nil
+gem 'rails', '2.3.11' #, :require => nil
 # bundler requires these gems in all environments
 # gem 'nokogiri', '1.4.2'
 # gem 'geokit'
