@@ -5,6 +5,7 @@ development:
       port: 3306
       username: fedena
       password: fedena
+      init_command: "SET @@SESSION.sql_mode = ''"
 
 test: &test
       host: localhost
