@@ -325,23 +325,15 @@ class Student < ActiveRecord::Base
           score = GroupedExamReport.find_by_student_id_and_subject_id_and_batch_id_and_score_type(id, subject_id, batch_id, 's')
           unless score.nil?
             if batch.gpa_enabled?
-              if (if level.marks_limit_type == 'upper'
-                    score.marks < level.gpa
-                  end) || (if level.marks_limit_type == 'lower'
-                                                                                      score.marks >= level.gpa
-                                                                                    end) || (if level.marks_limit_type == 'exact'
-                                                                                                                                                         score.marks == level.gpa
-                                                                                                                                                        end)
+              if (score.marks < level.gpa if level.marks_limit_type == 'upper') || (score.marks >= level.gpa if level.marks_limit_type == 'lower') || (if level.marks_limit_type == 'exact'
+                                                                                               score.marks == level.gpa
+                                                                                                                        end)
                 return true
               end
             else
-              if (if level.marks_limit_type == 'upper'
-                    score.marks < level.marks
-                  end) || (if level.marks_limit_type == 'lower'
-                                                                                        score.marks >= level.marks
-                                                                                      end) || (if level.marks_limit_type == 'exact'
-                                                                                                                                                             score.marks == level.marks
-                                                                                                                                                            end)
+              if (score.marks < level.marks if level.marks_limit_type == 'upper') || (score.marks >= level.marks if level.marks_limit_type == 'lower') || (if level.marks_limit_type == 'exact'
+                                                                                                 score.marks == level.marks 
+                 end)
                 return true
               end
             end
@@ -358,25 +350,16 @@ class Student < ActiveRecord::Base
               if batch.gpa_enabled?
                 scores.select! do |s| (
 
-                  
-                  (if level.marks_limit_type == 'upper'
-                     s.marks < level.gpa
-                   end) or (if level.marks_limit_type == 'lower'
-                                                                                   s.marks >= level.gpa
-                                                                                 end) or (if level.marks_limit_type == 'exact'
-                                                                                                                                                  s.marks == level.gpa
+                  (s.marks < level.gpa if level.marks_limit_type == 'upper') or (s.marks >= level.gpa if level.marks_limit_type == 'lower') or (if level.marks_limit_type == 'exact'
+                                                                                            s.marks == level.gpa
                                                                                                                                                 end))
                 end
               else
                 scores.select! do |s| (
 
                   
-                  (if level.marks_limit_type == 'upper'
-                     s.marks < level.marks
-                   end) or (if level.marks_limit_type == 'lower'
-                                                                                     s.marks >= level.marks
-                                                                                   end) or (if level.marks_limit_type == 'exact'
-                                                                                                                                                      s.marks == level.marks
+                  (s.marks < level.marks if level.marks_limit_type == 'upper') or (s.marks >= level.marks if level.marks_limit_type == 'lower') or (if level.marks_limit_type == 'exact'
+                                                                                              s.marks == level.marks
                                                                                                                                                     end))
                 end
               end
@@ -407,22 +390,14 @@ class Student < ActiveRecord::Base
             end
             unless score.nil?
               if batch.gpa_enabled?
-                if (if level.marks_limit_type == 'upper'
-                      score.marks < level.gpa
-                    end) || (if level.marks_limit_type == 'lower'
-                                                                                        score.marks >= level.gpa
-                                                                                      end) || (if level.marks_limit_type == 'exact'
-                                                                                                                                                           score.marks == level.gpa
+                if (score.marks < level.gpa if level.marks_limit_type == 'upper') || (score.marks >= level.gpa if level.marks_limit_type == 'lower') || (if level.marks_limit_type == 'exact'
+                                                                                                 score.marks == level.gpa
                                                                                                                                                           end)
                   return true
                 end
               else
-                if (if level.marks_limit_type == 'upper'
-                      score.marks < level.marks
-                    end) || (if level.marks_limit_type == 'lower'
-                                                                                          score.marks >= level.marks
-                                                                                        end) || (if level.marks_limit_type == 'exact'
-                                                                                                                                                               score.marks == level.marks
+                if (score.marks < level.marks if level.marks_limit_type == 'upper') || (score.marks >= level.marks if level.marks_limit_type == 'lower') || (if level.marks_limit_type == 'exact'
+                                                                                                   score.marks == level.marks
                                                                                                                                                               end)
                   return true
                 end
