@@ -1,21 +1,20 @@
 default: &default
+  host: 127.0.0.1
   adapter: mysql2
   init_command: "SET @@SESSION.sql_mode = ''"
-  port: 3306
+  port: <%= ENV['DB_PORT'] || 3306 %>
 
 development:
   <<: *default
-  host: localhost
   database: fedena
   username: fedena
-  password: 
+  password: fedena 
 
 test: &test
   <<: *default
-  host: localhost
   database: fedena
   username: fedena
-  password: fedena
+  password: fedena 
 
 production:
   <<: *default
