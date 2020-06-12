@@ -147,8 +147,18 @@ ActiveRecord::Schema.define(:version => 20130110095412) do
     t.integer  "user_id"
   end
 
-# Could not dump table "archived_exam_scores" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbefa7070>
+  create_table "archived_exam_scores", :force => true do |t|
+    t.integer  "student_id"
+    t.integer  "exam_id"
+    t.decimal  "marks",            :precision => 7, :scale => 2
+    t.integer  "grading_level_id"
+    t.string   "remarks"
+    t.boolean  "is_failed"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "archived_exam_scores", ["student_id", "exam_id"], :name => "index_archived_exam_scores_on_student_id_and_exam_id", :limit => {"exam_id"=>nil, "student_id"=>nil}
 
   create_table "archived_guardians", :force => true do |t|
     t.integer  "ward_id"
@@ -212,8 +222,17 @@ ActiveRecord::Schema.define(:version => 20130110095412) do
     t.integer  "user_id"
   end
 
-# Could not dump table "assessment_scores" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbe643f60>
+  create_table "assessment_scores", :force => true do |t|
+    t.integer  "student_id"
+    t.integer  "grade_points"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "exam_id"
+    t.integer  "batch_id"
+    t.integer  "descriptive_indicator_id"
+  end
+
+  add_index "assessment_scores", ["student_id", "batch_id", "descriptive_indicator_id", "exam_id"], :name => "score_index", :limit => {"descriptive_indicator_id"=>nil, "batch_id"=>nil, "exam_id"=>nil, "student_id"=>nil}
 
   create_table "assets", :force => true do |t|
     t.string   "title"
@@ -225,16 +244,32 @@ ActiveRecord::Schema.define(:version => 20130110095412) do
     t.datetime "updated_at"
   end
 
-# Could not dump table "attendances" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbe2748a8>
+  create_table "attendances", :force => true do |t|
+    t.integer "student_id"
+    t.integer "period_table_entry_id"
+    t.boolean "forenoon",              :default => false
+    t.boolean "afternoon",             :default => false
+    t.string  "reason"
+    t.date    "month_date"
+    t.integer "batch_id"
+  end
+
+  add_index "attendances", ["month_date", "batch_id"], :name => "index_attendances_on_month_date_and_batch_id", :limit => {"batch_id"=>nil, "month_date"=>nil}
+  add_index "attendances", ["student_id", "batch_id"], :name => "index_attendances_on_student_id_and_batch_id", :limit => {"batch_id"=>nil, "student_id"=>nil}
 
   create_table "bank_fields", :force => true do |t|
     t.string  "name"
     t.boolean "status"
   end
 
-# Could not dump table "batch_events" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbe686c70>
+  create_table "batch_events", :force => true do |t|
+    t.integer  "event_id"
+    t.integer  "batch_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "batch_events", ["batch_id"], :name => "index_batch_events_on_batch_id", :limit => {"batch_id"=>nil}
 
   create_table "batch_groups", :force => true do |t|
     t.integer  "course_id"
@@ -243,11 +278,24 @@ ActiveRecord::Schema.define(:version => 20130110095412) do
     t.datetime "updated_at"
   end
 
-# Could not dump table "batch_students" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbee91e88>
+  create_table "batch_students", :id => false, :force => true do |t|
+    t.integer "student_id"
+    t.integer "batch_id"
+  end
 
-# Could not dump table "batches" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbee68c18>
+  add_index "batch_students", ["batch_id", "student_id"], :name => "index_batch_students_on_batch_id_and_student_id", :limit => {"batch_id"=>nil, "student_id"=>nil}
+
+  create_table "batches", :force => true do |t|
+    t.string   "name"
+    t.integer  "course_id"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.boolean  "is_active",   :default => true
+    t.boolean  "is_deleted",  :default => false
+    t.string   "employee_id"
+  end
+
+  add_index "batches", ["is_deleted", "is_active", "course_id", "name"], :name => "index_batches_on_is_deleted_and_is_active_and_course_id_and_name", :limit => {"name"=>nil, "is_deleted"=>nil, "is_active"=>nil, "course_id"=>nil}
 
   create_table "cce_exam_categories", :force => true do |t|
     t.string   "name"
@@ -262,11 +310,28 @@ ActiveRecord::Schema.define(:version => 20130110095412) do
     t.datetime "updated_at"
   end
 
-# Could not dump table "cce_grades" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbe93da40>
+  create_table "cce_grades", :force => true do |t|
+    t.string   "name"
+    t.float    "grade_point"
+    t.integer  "cce_grade_set_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
-# Could not dump table "cce_reports" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbed8c2b8>
+  add_index "cce_grades", ["cce_grade_set_id"], :name => "index_cce_grades_on_cce_grade_set_id", :limit => {"cce_grade_set_id"=>nil}
+
+  create_table "cce_reports", :force => true do |t|
+    t.integer  "observable_id"
+    t.string   "observable_type"
+    t.integer  "student_id"
+    t.integer  "batch_id"
+    t.string   "grade_string"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "exam_id"
+  end
+
+  add_index "cce_reports", ["observable_id", "student_id", "batch_id", "exam_id", "observable_type"], :name => "cce_report_join_index", :limit => {"observable_id"=>nil, "batch_id"=>nil, "observable_type"=>nil, "exam_id"=>nil, "student_id"=>nil}
 
   create_table "cce_weightages", :force => true do |t|
     t.integer  "weightage"
@@ -276,8 +341,14 @@ ActiveRecord::Schema.define(:version => 20130110095412) do
     t.datetime "updated_at"
   end
 
-# Could not dump table "cce_weightages_courses" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbe67a8d0>
+  create_table "cce_weightages_courses", :id => false, :force => true do |t|
+    t.integer "cce_weightage_id"
+    t.integer "course_id"
+  end
+
+  add_index "cce_weightages_courses", ["cce_weightage_id"], :name => "index_cce_weightages_courses_on_cce_weightage_id", :limit => {"cce_weightage_id"=>nil}
+  add_index "cce_weightages_courses", ["course_id", "cce_weightage_id"], :name => "index_for_join_table_cce_weightage_courses", :limit => {"course_id"=>nil, "cce_weightage_id"=>nil}
+  add_index "cce_weightages_courses", ["course_id"], :name => "index_cce_weightages_courses_on_course_id", :limit => {"course_id"=>nil}
 
   create_table "class_designations", :force => true do |t|
     t.string   "name",                                      :null => false
@@ -288,27 +359,75 @@ ActiveRecord::Schema.define(:version => 20130110095412) do
     t.integer  "course_id"
   end
 
-# Could not dump table "class_timings" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbed03d28>
+  create_table "class_timings", :force => true do |t|
+    t.integer "batch_id"
+    t.string  "name"
+    t.time    "start_time"
+    t.time    "end_time"
+    t.boolean "is_break"
+    t.boolean "is_deleted", :default => false
+  end
 
-# Could not dump table "configurations" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbece6160>
+  add_index "class_timings", ["batch_id", "start_time", "end_time"], :name => "index_class_timings_on_batch_id_and_start_time_and_end_time", :limit => {"batch_id"=>nil, "end_time"=>nil, "start_time"=>nil}
+
+  create_table "configurations", :force => true do |t|
+    t.string "config_key"
+    t.string "config_value"
+  end
+
+  add_index "configurations", ["config_key"], :name => "index_configurations_on_config_key", :limit => {"config_key"=>"10"}
+  add_index "configurations", ["config_value"], :name => "index_configurations_on_config_value", :limit => {"config_value"=>"10"}
 
   create_table "countries", :force => true do |t|
     t.string "name"
   end
 
-# Could not dump table "courses" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbecae698>
+  create_table "courses", :force => true do |t|
+    t.string   "course_name"
+    t.string   "code"
+    t.string   "section_name"
+    t.boolean  "is_deleted",   :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "grading_type"
+  end
 
-# Could not dump table "courses_observation_groups" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbec88e48>
+  add_index "courses", ["grading_type"], :name => "index_courses_on_grading_type", :limit => {"grading_type"=>nil}
 
-# Could not dump table "delayed_jobs" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbec520a0>
+  create_table "courses_observation_groups", :id => false, :force => true do |t|
+    t.integer "course_id"
+    t.integer "observation_group_id"
+  end
 
-# Could not dump table "descriptive_indicators" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbe1f1250>
+  add_index "courses_observation_groups", ["course_id"], :name => "index_courses_observation_groups_on_course_id", :limit => {"course_id"=>nil}
+  add_index "courses_observation_groups", ["observation_group_id"], :name => "index_courses_observation_groups_on_observation_group_id", :limit => {"observation_group_id"=>nil}
+
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["locked_by"], :name => "index_delayed_jobs_on_locked_by", :limit => {"locked_by"=>nil}
+
+  create_table "descriptive_indicators", :force => true do |t|
+    t.string   "name"
+    t.string   "desc"
+    t.integer  "describable_id"
+    t.string   "describable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "sort_order"
+  end
+
+  add_index "descriptive_indicators", ["describable_id", "describable_type", "sort_order"], :name => "describable_index", :limit => {"sort_order"=>nil, "describable_type"=>nil, "describable_id"=>nil}
 
   create_table "elective_groups", :force => true do |t|
     t.string   "name"
@@ -401,14 +520,85 @@ ActiveRecord::Schema.define(:version => 20130110095412) do
     t.string  "amount"
   end
 
-# Could not dump table "employees" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbdf015e0>
+  create_table "employees", :force => true do |t|
+    t.integer  "employee_category_id"
+    t.string   "employee_number"
+    t.date     "joining_date"
+    t.string   "first_name"
+    t.string   "middle_name"
+    t.string   "last_name"
+    t.string   "gender"
+    t.string   "job_title"
+    t.integer  "employee_position_id"
+    t.integer  "employee_department_id"
+    t.integer  "reporting_manager_id"
+    t.integer  "employee_grade_id"
+    t.string   "qualification"
+    t.text     "experience_detail"
+    t.integer  "experience_year"
+    t.integer  "experience_month"
+    t.boolean  "status"
+    t.string   "status_description"
+    t.date     "date_of_birth"
+    t.string   "marital_status"
+    t.integer  "children_count"
+    t.string   "father_name"
+    t.string   "mother_name"
+    t.string   "husband_name"
+    t.string   "blood_group"
+    t.integer  "nationality_id"
+    t.string   "home_address_line1"
+    t.string   "home_address_line2"
+    t.string   "home_city"
+    t.string   "home_state"
+    t.integer  "home_country_id"
+    t.string   "home_pin_code"
+    t.string   "office_address_line1"
+    t.string   "office_address_line2"
+    t.string   "office_city"
+    t.string   "office_state"
+    t.integer  "office_country_id"
+    t.string   "office_pin_code"
+    t.string   "office_phone1"
+    t.string   "office_phone2"
+    t.string   "mobile_phone"
+    t.string   "home_phone"
+    t.string   "email"
+    t.string   "fax"
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.binary   "photo_data",             :limit => 16777215
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "photo_file_size"
+    t.integer  "user_id"
+  end
 
-# Could not dump table "employees_subjects" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbdeadaf8>
+  add_index "employees", ["employee_number"], :name => "index_employees_on_employee_number", :limit => {"employee_number"=>"10"}
 
-# Could not dump table "events" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbde6d228>
+  create_table "employees_subjects", :force => true do |t|
+    t.integer "employee_id"
+    t.integer "subject_id"
+  end
+
+  add_index "employees_subjects", ["subject_id"], :name => "index_employees_subjects_on_subject_id", :limit => {"subject_id"=>nil}
+
+  create_table "events", :force => true do |t|
+    t.string   "title"
+    t.string   "description"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.boolean  "is_common",   :default => false
+    t.boolean  "is_holiday",  :default => false
+    t.boolean  "is_exam",     :default => false
+    t.boolean  "is_due",      :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "origin_id"
+    t.string   "origin_type"
+  end
+
+  add_index "events", ["is_common", "is_holiday", "is_exam"], :name => "index_events_on_is_common_and_is_holiday_and_is_exam", :limit => {"is_holiday"=>nil, "is_common"=>nil, "is_exam"=>nil}
 
   create_table "exam_groups", :force => true do |t|
     t.string  "name"
@@ -421,14 +611,46 @@ ActiveRecord::Schema.define(:version => 20130110095412) do
     t.integer "cce_exam_category_id"
   end
 
-# Could not dump table "exam_scores" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbdded190>
+  create_table "exam_scores", :force => true do |t|
+    t.integer  "student_id"
+    t.integer  "exam_id"
+    t.decimal  "marks",            :precision => 7, :scale => 2
+    t.integer  "grading_level_id"
+    t.string   "remarks"
+    t.boolean  "is_failed"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
-# Could not dump table "exams" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbdd7ad20>
+  add_index "exam_scores", ["student_id", "exam_id"], :name => "index_exam_scores_on_student_id_and_exam_id", :limit => {"exam_id"=>nil, "student_id"=>nil}
 
-# Could not dump table "fa_criterias" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbdd1c680>
+  create_table "exams", :force => true do |t|
+    t.integer  "exam_group_id"
+    t.integer  "subject_id"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.decimal  "maximum_marks",    :precision => 10, :scale => 2
+    t.decimal  "minimum_marks",    :precision => 10, :scale => 2
+    t.integer  "grading_level_id"
+    t.integer  "weightage",                                       :default => 0
+    t.integer  "event_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "exams", ["exam_group_id", "subject_id"], :name => "index_exams_on_exam_group_id_and_subject_id", :limit => {"subject_id"=>nil, "exam_group_id"=>nil}
+
+  create_table "fa_criterias", :force => true do |t|
+    t.string   "fa_name"
+    t.string   "desc"
+    t.integer  "fa_group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "sort_order"
+    t.boolean  "is_deleted",  :default => false
+  end
+
+  add_index "fa_criterias", ["fa_group_id"], :name => "index_fa_criterias_on_fa_group_id", :limit => {"fa_group_id"=>nil}
 
   create_table "fa_groups", :force => true do |t|
     t.string   "name"
@@ -441,8 +663,14 @@ ActiveRecord::Schema.define(:version => 20130110095412) do
     t.boolean  "is_deleted",           :default => false
   end
 
-# Could not dump table "fa_groups_subjects" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbdc80578>
+  create_table "fa_groups_subjects", :id => false, :force => true do |t|
+    t.integer "subject_id"
+    t.integer "fa_group_id"
+  end
+
+  add_index "fa_groups_subjects", ["fa_group_id", "subject_id"], :name => "score_index", :limit => {"subject_id"=>nil, "fa_group_id"=>nil}
+  add_index "fa_groups_subjects", ["fa_group_id"], :name => "index_fa_groups_subjects_on_fa_group_id", :limit => {"fa_group_id"=>nil}
+  add_index "fa_groups_subjects", ["subject_id"], :name => "index_fa_groups_subjects_on_subject_id", :limit => {"subject_id"=>nil}
 
   create_table "fee_collection_discounts", :force => true do |t|
     t.string   "type"
@@ -497,8 +725,17 @@ ActiveRecord::Schema.define(:version => 20130110095412) do
     t.datetime "updated_at"
   end
 
-# Could not dump table "finance_fee_collections" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbdaa7f80>
+  create_table "finance_fee_collections", :force => true do |t|
+    t.string  "name"
+    t.date    "start_date"
+    t.date    "end_date"
+    t.date    "due_date"
+    t.integer "fee_category_id"
+    t.integer "batch_id"
+    t.boolean "is_deleted",      :default => false, :null => false
+  end
+
+  add_index "finance_fee_collections", ["fee_category_id"], :name => "index_finance_fee_collections_on_fee_category_id", :limit => {"fee_category_id"=>nil}
 
   create_table "finance_fee_particulars", :force => true do |t|
     t.string   "name"
@@ -524,8 +761,14 @@ ActiveRecord::Schema.define(:version => 20130110095412) do
     t.boolean "deleted",                                            :default => false
   end
 
-# Could not dump table "finance_fees" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbd9d53f0>
+  create_table "finance_fees", :force => true do |t|
+    t.integer "fee_collection_id"
+    t.string  "transaction_id"
+    t.integer "student_id"
+    t.boolean "is_paid",           :default => false
+  end
+
+  add_index "finance_fees", ["fee_collection_id", "student_id"], :name => "index_finance_fees_on_fee_collection_id_and_student_id", :limit => {"student_id"=>nil, "fee_collection_id"=>nil}
 
   create_table "finance_transaction_categories", :force => true do |t|
     t.string  "name"
@@ -562,17 +805,50 @@ ActiveRecord::Schema.define(:version => 20130110095412) do
     t.string   "voucher_no"
   end
 
-# Could not dump table "grading_levels" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbd8703c0>
+  create_table "grading_levels", :force => true do |t|
+    t.string   "name"
+    t.integer  "batch_id"
+    t.integer  "min_score"
+    t.integer  "order"
+    t.boolean  "is_deleted",                                   :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.decimal  "credit_points", :precision => 15, :scale => 2
+    t.string   "description"
+  end
 
-# Could not dump table "grouped_batches" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbd824128>
+  add_index "grading_levels", ["batch_id", "is_deleted"], :name => "index_grading_levels_on_batch_id_and_is_deleted", :limit => {"is_deleted"=>nil, "batch_id"=>nil}
 
-# Could not dump table "grouped_exam_reports" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbd795590>
+  create_table "grouped_batches", :force => true do |t|
+    t.integer  "batch_group_id"
+    t.integer  "batch_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
-# Could not dump table "grouped_exams" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbd75da50>
+  add_index "grouped_batches", ["batch_group_id"], :name => "index_grouped_batches_on_batch_group_id", :limit => {"batch_group_id"=>nil}
+
+  create_table "grouped_exam_reports", :force => true do |t|
+    t.integer  "batch_id"
+    t.integer  "student_id"
+    t.integer  "exam_group_id"
+    t.decimal  "marks",         :precision => 15, :scale => 2
+    t.string   "score_type"
+    t.integer  "subject_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "grouped_exam_reports", ["batch_id", "student_id", "score_type"], :name => "by_batch_student_and_score_type", :limit => {"batch_id"=>nil, "score_type"=>nil, "student_id"=>nil}
+
+  create_table "grouped_exams", :force => true do |t|
+    t.integer "exam_group_id"
+    t.integer "batch_id"
+    t.decimal "weightage",     :precision => 15, :scale => 2
+  end
+
+  add_index "grouped_exams", ["batch_id", "exam_group_id"], :name => "index_grouped_exams_on_batch_id_and_exam_group_id", :limit => {"batch_id"=>nil, "exam_group_id"=>nil}
+  add_index "grouped_exams", ["batch_id"], :name => "index_grouped_exams_on_batch_id", :limit => {"batch_id"=>nil}
 
   create_table "guardians", :force => true do |t|
     t.integer  "ward_id"
@@ -658,8 +934,17 @@ ActiveRecord::Schema.define(:version => 20130110095412) do
     t.boolean  "is_deleted",       :default => false
   end
 
-# Could not dump table "observations" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbcdd6810>
+  create_table "observations", :force => true do |t|
+    t.string   "name"
+    t.string   "desc"
+    t.boolean  "is_active"
+    t.integer  "observation_group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "sort_order"
+  end
+
+  add_index "observations", ["observation_group_id"], :name => "index_observations_on_observation_group_id", :limit => {"observation_group_id"=>nil}
 
   create_table "payroll_categories", :force => true do |t|
     t.string  "name"
@@ -669,11 +954,28 @@ ActiveRecord::Schema.define(:version => 20130110095412) do
     t.boolean "status"
   end
 
-# Could not dump table "period_entries" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbccf1058>
+  create_table "period_entries", :force => true do |t|
+    t.date    "month_date"
+    t.integer "batch_id"
+    t.integer "subject_id"
+    t.integer "class_timing_id"
+    t.integer "employee_id"
+  end
 
-# Could not dump table "previous_exam_scores" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbcc34b10>
+  add_index "period_entries", ["month_date", "batch_id"], :name => "index_period_entries_on_month_date_and_batch_id", :limit => {"batch_id"=>nil, "month_date"=>nil}
+
+  create_table "previous_exam_scores", :force => true do |t|
+    t.integer  "student_id"
+    t.integer  "exam_id"
+    t.decimal  "marks",            :precision => 7, :scale => 2
+    t.integer  "grading_level_id"
+    t.string   "remarks"
+    t.boolean  "is_failed"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "previous_exam_scores", ["student_id", "exam_id"], :name => "index_previous_exam_scores_on_student_id_and_exam_id", :limit => {"exam_id"=>nil, "student_id"=>nil}
 
   create_table "privilege_tags", :force => true do |t|
     t.string   "name_tag"
@@ -691,8 +993,12 @@ ActiveRecord::Schema.define(:version => 20130110095412) do
     t.integer  "priority"
   end
 
-# Could not dump table "privileges_users" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbcb60f40>
+  create_table "privileges_users", :id => false, :force => true do |t|
+    t.integer "user_id"
+    t.integer "privilege_id"
+  end
+
+  add_index "privileges_users", ["user_id"], :name => "index_privileges_users_on_user_id", :limit => {"user_id"=>nil}
 
   create_table "ranking_levels", :force => true do |t|
     t.string   "name",                                                                 :null => false
@@ -708,8 +1014,19 @@ ActiveRecord::Schema.define(:version => 20130110095412) do
     t.string   "marks_limit_type"
   end
 
-# Could not dump table "reminders" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbca1cf30>
+  create_table "reminders", :force => true do |t|
+    t.integer  "sender"
+    t.integer  "recipient"
+    t.string   "subject"
+    t.text     "body"
+    t.boolean  "is_read",                 :default => false
+    t.boolean  "is_deleted_by_sender",    :default => false
+    t.boolean  "is_deleted_by_recipient", :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "reminders", ["recipient"], :name => "index_reminders_on_recipient", :limit => {"recipient"=>nil}
 
   create_table "school_details", :force => true do |t|
     t.integer  "school_id"
@@ -739,8 +1056,13 @@ ActiveRecord::Schema.define(:version => 20130110095412) do
     t.boolean "is_enabled",   :default => false
   end
 
-# Could not dump table "student_additional_details" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbc905d68>
+  create_table "student_additional_details", :force => true do |t|
+    t.integer "student_id"
+    t.integer "additional_field_id"
+    t.string  "additional_info"
+  end
+
+  add_index "student_additional_details", ["student_id", "additional_field_id"], :name => "student_data_index", :limit => {"additional_field_id"=>nil, "student_id"=>nil}
 
   create_table "student_additional_field_options", :force => true do |t|
     t.integer  "student_additional_field_id"
@@ -776,11 +1098,58 @@ ActiveRecord::Schema.define(:version => 20130110095412) do
     t.string  "mark"
   end
 
-# Could not dump table "students" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbbbf3fa8>
+  create_table "students", :force => true do |t|
+    t.string   "admission_no"
+    t.string   "class_roll_no"
+    t.date     "admission_date"
+    t.string   "first_name"
+    t.string   "middle_name"
+    t.string   "last_name"
+    t.integer  "batch_id"
+    t.date     "date_of_birth"
+    t.string   "gender"
+    t.string   "blood_group"
+    t.string   "birth_place"
+    t.integer  "nationality_id"
+    t.string   "language"
+    t.string   "religion"
+    t.integer  "student_category_id"
+    t.string   "address_line1"
+    t.string   "address_line2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "pin_code"
+    t.integer  "country_id"
+    t.string   "phone1"
+    t.string   "phone2"
+    t.string   "email"
+    t.integer  "immediate_contact_id"
+    t.boolean  "is_sms_enabled",                           :default => true
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.binary   "photo_data",           :limit => 16777215
+    t.string   "status_description"
+    t.boolean  "is_active",                                :default => true
+    t.boolean  "is_deleted",                               :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "has_paid_fees",                            :default => false
+    t.integer  "photo_file_size"
+    t.integer  "user_id"
+  end
 
-# Could not dump table "students_subjects" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbb73aa48>
+  add_index "students", ["admission_no"], :name => "index_students_on_admission_no", :limit => {"admission_no"=>"10"}
+  add_index "students", ["batch_id"], :name => "index_students_on_batch_id", :limit => {"batch_id"=>nil}
+  add_index "students", ["first_name", "middle_name", "last_name"], :name => "index_students_on_first_name_and_middle_name_and_last_name", :limit => {"first_name"=>"10", "last_name"=>"10", "middle_name"=>"10"}
+  add_index "students", ["nationality_id", "immediate_contact_id", "student_category_id"], :name => "student_data_index", :limit => {"student_category_id"=>nil, "immediate_contact_id"=>nil, "nationality_id"=>nil}
+
+  create_table "students_subjects", :force => true do |t|
+    t.integer "student_id"
+    t.integer "subject_id"
+    t.integer "batch_id"
+  end
+
+  add_index "students_subjects", ["student_id", "subject_id"], :name => "index_students_subjects_on_student_id_and_subject_id", :limit => {"subject_id"=>nil, "student_id"=>nil}
 
   create_table "subject_amounts", :force => true do |t|
     t.integer  "course_id"
@@ -790,11 +1159,37 @@ ActiveRecord::Schema.define(:version => 20130110095412) do
     t.datetime "updated_at"
   end
 
-# Could not dump table "subject_leaves" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbf672e68>
+  create_table "subject_leaves", :force => true do |t|
+    t.integer  "student_id"
+    t.date     "month_date"
+    t.integer  "subject_id"
+    t.integer  "employee_id"
+    t.integer  "class_timing_id"
+    t.string   "reason"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "batch_id"
+  end
 
-# Could not dump table "subjects" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbff250b0>
+  add_index "subject_leaves", ["month_date", "subject_id", "batch_id"], :name => "index_subject_leaves_on_month_date_and_subject_id_and_batch_id", :limit => {"subject_id"=>nil, "batch_id"=>nil, "month_date"=>nil}
+  add_index "subject_leaves", ["student_id", "batch_id"], :name => "index_subject_leaves_on_student_id_and_batch_id", :limit => {"batch_id"=>nil, "student_id"=>nil}
+
+  create_table "subjects", :force => true do |t|
+    t.string   "name"
+    t.string   "code"
+    t.integer  "batch_id"
+    t.boolean  "no_exams",                                          :default => false
+    t.integer  "max_weekly_classes"
+    t.integer  "elective_group_id"
+    t.boolean  "is_deleted",                                        :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.decimal  "credit_hours",       :precision => 15, :scale => 2
+    t.boolean  "prefer_consecutive",                                :default => false
+    t.decimal  "amount",             :precision => 15, :scale => 2
+  end
+
+  add_index "subjects", ["batch_id", "elective_group_id", "is_deleted"], :name => "index_subjects_on_batch_id_and_elective_group_id_and_is_deleted", :limit => {"is_deleted"=>nil, "elective_group_id"=>nil, "batch_id"=>nil}
 
   create_table "time_zones", :force => true do |t|
     t.string   "name"
@@ -805,11 +1200,26 @@ ActiveRecord::Schema.define(:version => 20130110095412) do
     t.datetime "updated_at"
   end
 
-# Could not dump table "timetable_entries" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbfe84520>
+  create_table "timetable_entries", :force => true do |t|
+    t.integer "batch_id"
+    t.integer "weekday_id"
+    t.integer "class_timing_id"
+    t.integer "subject_id"
+    t.integer "employee_id"
+    t.integer "timetable_id"
+  end
 
-# Could not dump table "timetables" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbfe55770>
+  add_index "timetable_entries", ["timetable_id"], :name => "index_timetable_entries_on_timetable_id", :limit => {"timetable_id"=>nil}
+
+  create_table "timetables", :force => true do |t|
+    t.date     "start_date"
+    t.date     "end_date"
+    t.boolean  "is_active",  :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "timetables", ["start_date", "end_date"], :name => "by_start_and_end", :limit => {"start_date"=>nil, "end_date"=>nil}
 
   create_table "user_events", :force => true do |t|
     t.integer  "event_id"
@@ -818,10 +1228,36 @@ ActiveRecord::Schema.define(:version => 20130110095412) do
     t.datetime "updated_at"
   end
 
-# Could not dump table "users" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbfd4fda8>
+  create_table "users", :force => true do |t|
+    t.string   "username"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email"
+    t.boolean  "admin"
+    t.boolean  "student"
+    t.boolean  "employee"
+    t.string   "hashed_password"
+    t.string   "salt"
+    t.string   "reset_password_code"
+    t.datetime "reset_password_code_until"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "parent"
+    t.boolean  "is_first_login"
+    t.boolean  "is_deleted",                :default => false
+  end
 
-# Could not dump table "weekdays" because of following NoMethodError
-#   undefined method `limits' for #<ActiveRecord::ConnectionAdapters::Mysql2IndexDefinition:0x0000555bbfccc818>
+  add_index "users", ["username"], :name => "index_users_on_username", :limit => {"username"=>"10"}
+
+  create_table "weekdays", :force => true do |t|
+    t.integer "batch_id"
+    t.string  "weekday"
+    t.string  "name"
+    t.integer "sort_order"
+    t.integer "day_of_week"
+    t.boolean "is_deleted",  :default => false
+  end
+
+  add_index "weekdays", ["batch_id"], :name => "index_weekdays_on_batch_id", :limit => {"batch_id"=>nil}
 
 end
