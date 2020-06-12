@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rake', '~> 0.8.7'
+gem 'rake', '~> 12.3.3'
 gem 'i18n', '~> 0.4.2'
 gem 'mysql'
 gem 'rush', '~> 0.6.7'
