@@ -4,8 +4,8 @@ default: &default
   init_command: "SET @@SESSION.sql_mode = ''"
   port: <%= ENV['MYSQL_PORT'] || 3306 %>
   host: <%= ENV['MYSQL_HOST'] || 'localhost' %>
-  username: <%= ENV['MYSQL_USER'] || 'root' %>
-  password: <%= ENV['MYSQL_PASSWORD'] || '' %>
+  username: <%= ENV['MYSQL_USER'] || 'fedena' %>
+  password: <%= ENV['MYSQL_PASSWORD'] || 'fedena' %>
 
 development:
   <<: *default
