@@ -2,6 +2,7 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "./../config/environment")
 require File.dirname(__FILE__) + "/factories"  
 require 'test_help'
+require 'shoulda-matchers'
 
 class ActiveSupport::TestCase
   self.use_transactional_fixtures = true

@@ -2,8 +2,8 @@ require 'rbconfig'
 
 # This generator bootstraps a Rails project for use with RSpec
 class RspecGenerator < Rails::Generator::Base
-  DEFAULT_SHEBANG = File.join(Config::CONFIG['bindir'],
-                              Config::CONFIG['ruby_install_name'])
+  DEFAULT_SHEBANG = File.join(RbConfig::CONFIG['bindir'],
+                              RbConfig::CONFIG['ruby_install_name'])
 
   def initialize(runtime_args, runtime_options = {})
     if test ?f, 'spec/spec_helper.rb'

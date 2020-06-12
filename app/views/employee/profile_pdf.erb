@@ -58,7 +58,7 @@
       <tr class="odd"><td class="col-pdf"><%= t('mother_name') %></td><td class="col-pdf"><%= @employee.mother_name unless @employee.mother_name.nil? %></td></tr>
       <tr class="even"><td class="col-pdf"><%= t('spouse_name') %></td><td class="col-pdf"><%= @employee.husband_name unless @employee.husband_name.nil? %></td></tr>
       <tr class="odd"><td class="col-pdf"><%= t('blood_group') %></td><td class="col-pdf"><%= @employee.blood_group unless @employee.blood_group.nil? %></td></tr>
-      <tr class="even"><td class="col-pdf"><%= t('nationality') %></td><td class="col-pdf"><%= @employee.nationality.name unless @employee.nationality.name.nil? %></td></tr>
+      <tr class="even"><td class="col-pdf"><%= t('nationality') %></td><td class="col-pdf"><%= @employee.nationality&.name %></td></tr>
     </table>
 
   </div>
