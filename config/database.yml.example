@@ -1,26 +1,27 @@
+default: &default
+  adapter: mysql2
+  init_command: "SET @@SESSION.sql_mode = ''"
+  port: 3306
+
 development:
-      host: localhost
-      adapter: mysql2
-      database: fedena
-      port: 3306
-      username: fedena
-      password: fedena
-      init_command: "SET @@SESSION.sql_mode = ''"
+  <<: *default
+  host: localhost
+  database: fedena
+  username: fedena
+  password: 
 
 test: &test
-      host: localhost
-      adapter: mysql
-      database: fedena
-      port: 3306
-      username: fedena
-      password: fedena
+  <<: *default
+  host: localhost
+  database: fedena
+  username: fedena
+  password: fedena
 
 production:
-      host: localhost
-      adapter: mysql
-      database: fedena
-      port: 3306
-      username: fedena
-      password: fedena
+  <<: *default
+  host: localhost
+  database: fedena
+  username: fedena
+  password: fedena
 cucumber:
   <<: *test
