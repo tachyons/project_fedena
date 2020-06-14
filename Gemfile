@@ -6,7 +6,6 @@ gem 'wicked_pdf', "0.9.1"
 gem "activerecord-mysql2-adapter"
 gem 'rush', '~> 0.6.7'
 gem 'declarative_authorization','~> 0.5.1'
-# gem 'test-unit'
 gem 'pry'
 gem 'puma'
 git 'https://github.com/makandra/rails.git', :branch => '2-3-lts' do
@@ -31,10 +30,7 @@ end
 group :test do
   # bundler requires these gems while running tests
   gem 'rspec'
-  gem 'factory_girl', '1.3.2'
-  gem 'rspec-rails', '~> 1.3.2'
+  gem 'factory_girl'
+  gem 'database_cleaner', "~> 0.9"
   gem 'test-unit'
-  gem 'shoulda-matchers'
-  gem 'minitest'
-  # gem 'faker'
 end

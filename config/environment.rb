@@ -2,8 +2,8 @@ require_relative '../config/boot.rb'
 
 Rails::Initializer.run do |config|
   config.time_zone = 'UTC'
-  config.load_once_paths += %W( #{RAILS_ROOT}/lib )
-  config.load_paths += Dir["#{RAILS_ROOT}/app/models/*"].find_all { |f| File.stat(f).directory? }
+  config.autoload_once_paths += %W( #{RAILS_ROOT}/lib )
+  config.autoload_paths += Dir["#{RAILS_ROOT}/app/models/*"].find_all { |f| File.stat(f).directory? }
 
   config.reload_plugins = true if RAILS_ENV =="development"
   config.plugins = [:paperclip,:all]
