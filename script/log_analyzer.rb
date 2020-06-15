@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
- 
+
 # This script will take a look at the output from your rails application and print
 # info about the number of selects, updates and inserts, as well as the slowest partials
 # to render and the slowest selects.
@@ -24,7 +24,7 @@ select_types = {}
 exists_types = {}
 search_types = {}
 select_times = []
- 
+
 def calculate_time(time_string, unit_string)
   time = time_string.to_f
   if unit_string == 'ms'
@@ -33,7 +33,7 @@ def calculate_time(time_string, unit_string)
     time * 1000.0
   end
 end
- 
+
 while line = STDIN.gets
   if line =~ /\s*Processing\s+([\w|:]*)Controller#.*/
     num_selects = 0
@@ -52,16 +52,16 @@ while line = STDIN.gets
     select_times = []
   elsif line =~ /(\W*)(\w+) Load[\w|\s]+\(([0-9|\.]+)(m?s)\)(.*)/
     num_selects += 1
-    select_types[$2] ||= [0, 0.0]
-    select_types[$2][0] += 1
-    time = calculate_time($3, $4)
-    select_types[$2][1] += time
-    select_times << [time, $5]
+    select_types[Regexp.last_match(2)] ||= [0, 0.0]
+    select_types[Regexp.last_match(2)][0] += 1
+    time = calculate_time(Regexp.last_match(3), Regexp.last_match(4))
+    select_types[Regexp.last_match(2)][1] += time
+    select_times << [time, Regexp.last_match(5)]
   elsif line =~ /(\W*)(\w+) Exists[\w|\s]+\(([0-9|\.]+)(m?s)\)(.*)/
     num_exists += 1
-    exists_types[$2] ||= [0, 0.0]
-    exists_types[$2][0] += 1
-    exists_types[$2][1] += calculate_time($3, $4)
+    exists_types[Regexp.last_match(2)] ||= [0, 0.0]
+    exists_types[Regexp.last_match(2)][0] += 1
+    exists_types[Regexp.last_match(2)][1] += calculate_time(Regexp.last_match(3), Regexp.last_match(4))
   elsif line =~ /(\W*)SQL[\w|\s]+\(([0-9|\.]+)(m?s)\)(.*)/
     num_sqls += 1
   elsif line =~ /(\s*)CACHE(.*)/
@@ -72,18 +72,18 @@ while line = STDIN.gets
     num_updates += 1
   elsif line =~ /(\s*)Rendered (.*) \((.*)\)(\s*)/
     num_partials += 1
-    partial_times[$2] ||= 0.0
-    partial_times[$2] += $3.to_f
+    partial_times[Regexp.last_match(2)] ||= 0.0
+    partial_times[Regexp.last_match(2)] += Regexp.last_match(3).to_f
   elsif line =~ /(\W*)Solr (\w+) Search[\w|\s]+\(([0-9|\.]+)(m?s)\)(.*)/
     num_searches += 1
-    search_types[$2] ||= [0, 0.0]
-    search_types[$2][0] += 1
-    search_types[$2][1] += calculate_time($3, $4)
+    search_types[Regexp.last_match(2)] ||= [0, 0.0]
+    search_types[Regexp.last_match(2)][0] += 1
+    search_types[Regexp.last_match(2)][1] += calculate_time(Regexp.last_match(3), Regexp.last_match(4))
   elsif line =~ /(\s*)Completed in ([0-9|.]+)(m?s)(.*)/
     request_lines.each { |p_line| puts p_line }
     puts line
     puts '================================================'
-    puts "Total Time: #{$2}"
+    puts "Total Time: #{Regexp.last_match(2)}"
     puts "Selects: #{num_selects}"
     puts "Raw SQL: #{num_sqls}"
     puts "Exists: #{num_exists}"
@@ -95,7 +95,7 @@ while line = STDIN.gets
     puts '================================================'
     puts ''
     puts 'Top ten partials:'
-    time = calculate_time($2.to_f, $3)
+    time = calculate_time(Regexp.last_match(2).to_f, Regexp.last_match(3))
     partial_times.map { |key, value| [key, value] }.sort_by { |i| i[1] }.reverse.slice(0, 10).each do |item|
       puts "#{item[0]} - #{item[1]} - #{((item[1] / time) * 100.0).to_i}%"
     end
