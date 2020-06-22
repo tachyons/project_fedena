@@ -1,3 +1,7 @@
 config/database.yml
 log
 public/javascripts/cache/
+tmp/cache
+tmp/pids
+tmp/sessions
+tmp/sockets
