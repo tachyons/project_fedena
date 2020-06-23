@@ -1,66 +1,67 @@
-#skip{
-    margin-top:28px;
-    margin-right:130px;
-    float:right;
-    -moz-border-radius:12px;
-    -webkit-border-radius:12px;
-    background:none repeat scroll 0 0 #27292B;
-    color:#FFFFFF;
-    font-family:arial;
-    font-size:14px;
-    font-weight:bold;
-    padding:7px 10px;
+#skip {
+  margin-top: 28px;
+  margin-right: 130px;
+  float: right;
+  -moz-border-radius: 12px;
+  -webkit-border-radius: 12px;
+  background: none repeat scroll 0 0 #27292b;
+  color: #ffffff;
+  font-family: arial;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 7px 10px;
 }
-#skip a{
-    color:#fff;
-    text-decoration: none;
+#skip a {
+  color: #fff;
+  text-decoration: none;
 }
-#skip:hover,#add-more-parent:hover{
-    background:  #373B3F;
+#skip:hover,
+#add-more-parent:hover {
+  background: #373b3f;
 }
 
 table#listing td a:hover {
-    color:#27292B;
-    text-decoration:none;
-    -moz-border-radius:10px 10px 10px 10px;
-    -webkit-border-radius:10px 10px 10px 10px;
-    background:none repeat scroll 0 0 #373B3F;
-    border:medium none;
-    color:#FFFFFF;
-    cursor:pointer;
-    font-family:arial;
-    font-size:14px;
-    font-weight:bold;
-    margin-right:0px;
-    margin-top:15px;
-    padding:7px 10px;
-    width:115px;
-    display: block;
+  color: #27292b;
+  text-decoration: none;
+  -moz-border-radius: 10px 10px 10px 10px;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  background: none repeat scroll 0 0 #373b3f;
+  border: medium none;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: arial;
+  font-size: 14px;
+  font-weight: bold;
+  margin-right: 0px;
+  margin-top: 15px;
+  padding: 7px 10px;
+  width: 115px;
+  display: block;
 }
 
 #reset-box {
-    background: #ffdedf ;
-    -moz-border-radius:10px;
-    -webkit-border-radius:10px;
-    height : auto;
-    margin : 20px auto;
-    padding : 1px 20px 1px 0;
-    text-align: center;
-    width :500px;
-    margin: 0 auto;
-    font-size: 18px;
+  background: #ffdedf;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  height: auto;
+  margin: 20px auto;
+  padding: 1px 20px 1px 0;
+  text-align: center;
+  width: 500px;
+  margin: 0 auto;
+  font-size: 18px;
 }
 
-a.user_button{
-    margin-top: 20px;
-    margin-left: 420px;
+a.user_button {
+  margin-top: 20px;
+  margin-left: 420px;
 }
 
-.submit-button{
-    width: 100%;
-    text-align: center;
+.submit-button {
+  width: 100%;
+  text-align: center;
 }
 
-table#listing{
-    padding: 20px !important;
+table#listing {
+  padding: 20px !important;
 }

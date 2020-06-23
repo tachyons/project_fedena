@@ -20,7 +20,8 @@ div.popup {
   height: 500px;
 }
 
-span.popup_link, a.popup_link {
+span.popup_link,
+a.popup_link {
   cursor: pointer;
   border-bottom: 1px dotted;
 }

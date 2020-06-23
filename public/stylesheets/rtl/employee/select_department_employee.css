@@ -1,65 +1,66 @@
-.drop-down-box{
-    margin:50px 200px 0 0;
-    height:80px;
-    width:300px;
+.drop-down-box {
+  margin: 50px 200px 0 0;
+  height: 80px;
+  width: 300px;
 }
-
 
 .drop-down-box label {
-    color : #444;
-    display : block;
-    font-weight : bold;
-    margin : 0 0 10px 0;
+  color: #444;
+  display: block;
+  font-weight: bold;
+  margin: 0 0 10px 0;
 }
 .drop-down-box input {
-    background : transparent;
-    border : 0;
-    margin : 5px 10px 0 0;
-    width : 210px;
+  background: transparent;
+  border: 0;
+  margin: 5px 10px 0 0;
+  width: 210px;
 }
-
 
 #employee-list {
-    clear : both;
-    padding : 10px 180px 40px 0;
-    font-size:14px;
+  clear: both;
+  padding: 10px 180px 40px 0;
+  font-size: 14px;
 }
 
-#employee-list .listeven{
-    background : #EEF2FD;
-    border-bottom:1px solid #BECFFB;
-    color : #444;
-    min-height : 1.5em; width : 30em;
-    list-style-type : none;
-    padding : 0.5em 5em 0 0;
-    overflow: hidden;
+#employee-list .listeven {
+  background: #eef2fd;
+  border-bottom: 1px solid #becffb;
+  color: #444;
+  min-height: 1.5em;
+  width: 30em;
+  list-style-type: none;
+  padding: 0.5em 5em 0 0;
+  overflow: hidden;
 }
 
-#employee-list .listodd{
-    background : #DFEAFF;
-    border-bottom:1px solid #BECFFB;
-    color : #444;
-    min-height : 1.5em; width : 30em;
-    list-style-type : none;
-    padding : 0.5em 5em 0 0;
-    overflow: hidden;
+#employee-list .listodd {
+  background: #dfeaff;
+  border-bottom: 1px solid #becffb;
+  color: #444;
+  min-height: 1.5em;
+  width: 30em;
+  list-style-type: none;
+  padding: 0.5em 5em 0 0;
+  overflow: hidden;
 }
 
 #employee-list li.heading {
-    background : none;
-    font-weight : bold;
-    list-style-type : none;
-    color : #444;
-    height : 1.5em; width : 30em;
-    padding : 0.5em 5em 0 0;
+  background: none;
+  font-weight: bold;
+  list-style-type: none;
+  color: #444;
+  height: 1.5em;
+  width: 30em;
+  padding: 0.5em 5em 0 0;
 }
 #employee-list li div {
-    float : right;
+  float: right;
 }
 #employee-list li div.employee-name {
-    width : 350px;
+  width: 350px;
 }
 
 #employee-list li div a {
-    color : #000;
+  color: #000;
 }

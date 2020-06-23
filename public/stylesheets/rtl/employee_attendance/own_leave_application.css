@@ -1,63 +1,62 @@
-
-#leave-info{
-
+#leave-info {
 }
-
 
 #category-list {
-    clear : both;
-    padding : 10px 0px 40px 0;
-    width:540px;
-    margin:0px auto;
+  clear: both;
+  padding: 10px 0px 40px 0;
+  width: 540px;
+  margin: 0px auto;
 }
 
-#category-list .listeven{
-    background : #EEF2FD;
-    border-bottom:1px solid #BECFFB;
-    color : #444;
-    height : 1.5em; width : 33em;
-    list-style-type : none;
-    padding : 0.5em 5em 0 0;
+#category-list .listeven {
+  background: #eef2fd;
+  border-bottom: 1px solid #becffb;
+  color: #444;
+  height: 1.5em;
+  width: 33em;
+  list-style-type: none;
+  padding: 0.5em 5em 0 0;
 }
 
-#category-list .listodd{
-    background : #DFEAFF;
-    border-bottom:1px solid #BECFFB;
-    color : #444;
-    height : 1.5em; width : 33em;
-    list-style-type : none;
-    padding : 0.5em 5em 0 0;
+#category-list .listodd {
+  background: #dfeaff;
+  border-bottom: 1px solid #becffb;
+  color: #444;
+  height: 1.5em;
+  width: 33em;
+  list-style-type: none;
+  padding: 0.5em 5em 0 0;
 }
 
 #category-list li div {
-    float : right;
+  float: right;
 }
 #category-list li div.category-name {
-    width : 235px;
-    font-weight: bold;
-    font-size:13px;
+  width: 235px;
+  font-weight: bold;
+  font-size: 13px;
 }
 
 #category-list li div a {
-    color : #000;
-    font-size:14px;
-    text-decoration: none;
+  color: #000;
+  font-size: 14px;
+  text-decoration: none;
 }
 #category-list li div a:hover {
-    color : #d00;
-    text-decoration: underline;
+  color: #d00;
+  text-decoration: underline;
 }
 
-.cancel-leave{
-    width:50px;
-    float:left;
-    margin:0 0 0 120px;
+.cancel-leave {
+  width: 50px;
+  float: left;
+  margin: 0 0 0 120px;
 }
 
-.cancel-leave a{
-    color:black;
-    text-decoration:underline;
+.cancel-leave a {
+  color: black;
+  text-decoration: underline;
 }
 .user_button {
-    margin: 0 455px 0 0;
+  margin: 0 455px 0 0;
 }

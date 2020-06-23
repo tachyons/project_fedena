@@ -1,10 +1,9 @@
-
-.box{
-    margin:0 auto;
-    width:550px;
+.box {
+  margin: 0 auto;
+  width: 550px;
 }
-.att_detail{
-margin:20px 0 10px 100px;
-    font-variant: small-caps;
-        font-weight: bold;
+.att_detail {
+  margin: 20px 0 10px 100px;
+  font-variant: small-caps;
+  font-weight: bold;
 }

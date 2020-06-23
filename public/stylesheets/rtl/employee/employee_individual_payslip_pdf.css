@@ -1,156 +1,132 @@
-
-
 #page-yield {
-    width:800px;
-    margin: 0 auto;
-    float: right;
-    overflow: hidden;
+  width: 800px;
+  margin: 0 auto;
+  float: right;
+  overflow: hidden;
 }
 
-
-
-.hor_line{
-    width:800px;
-    background: #333333;
-    height: 1px;
+.hor_line {
+  width: 800px;
+  background: #333333;
+  height: 1px;
 }
 
-h2.heading{
-    text-align: center;
-    margin:5px;
+h2.heading {
+  text-align: center;
+  margin: 5px;
 }
-#main_info{
-    margin-top: 20px;
-
+#main_info {
+  margin-top: 20px;
 }
-#main_info h4{
-    color: #555555;
-    margin-top: 2px;
-    font-weight: normal;
-}
-
-#main_info h2{
-    margin-bottom: 2px;
-    font-weight: normal;
-
+#main_info h4 {
+  color: #555555;
+  margin-top: 2px;
+  font-weight: normal;
 }
 
-
-.odd{
-    height:auto;
-    background: #EEEEEE;
-
+#main_info h2 {
+  margin-bottom: 2px;
+  font-weight: normal;
 }
 
-.even{
-
-    height:auto;
-    background: #fff;
-
-
-}
-tr.even{
-
+.odd {
+  height: auto;
+  background: #eeeeee;
 }
 
-tr.odd{
-
+.even {
+  height: auto;
+  background: #fff;
+}
+tr.even {
 }
 
-.even td{ 
-    padding: 12px 15px 12px 12px;
-    border: 1px solid #ADACAB;
-    border-bottom: 0px solid #ADACAB;
+tr.odd {
 }
 
-.odd td{
-    padding: 12px 15px 12px 12px;
-    border: 1px solid #ADACAB;
-    border-bottom: 0px solid #ADACAB;
-
-}
-.table-header td{
-    padding: 12px 15px 12px 12px;
-    border-top: 1px solid #ADACAB;
-    color: #97080e;
-    background: #BCBCBA;
+.even td {
+  padding: 12px 15px 12px 12px;
+  border: 1px solid #adacab;
+  border-bottom: 0px solid #adacab;
 }
 
-table#pdf-table{
-    border: 1px solid #ADACAB;
-    border-right:  0px solid #ADACAB;
-    border-collapse:collapse
+.odd td {
+  padding: 12px 15px 12px 12px;
+  border: 1px solid #adacab;
+  border-bottom: 0px solid #adacab;
+}
+.table-header td {
+  padding: 12px 15px 12px 12px;
+  border-top: 1px solid #adacab;
+  color: #97080e;
+  background: #bcbcba;
 }
 
-
-#page-extender{
-    width:100%;
-    height :180px;
-
-}
-#page-extender1{
-    width:100%;
-    height :500px;
-
+table#pdf-table {
+  border: 1px solid #adacab;
+  border-right: 0px solid #adacab;
+  border-collapse: collapse;
 }
 
-.report{
-
-    margin: 0 auto;
+#page-extender {
+  width: 100%;
+  height: 180px;
+}
+#page-extender1 {
+  width: 100%;
+  height: 500px;
 }
 
-#signature{
-    text-align: left;
-    width: 700px;
-    margin: 0 auto;
-    color: #999999;
-    font-size: 18px;
+.report {
+  margin: 0 auto;
 }
 
-
-#page-yield h2{
-    text-align: center;
+#signature {
+  text-align: left;
+  width: 700px;
+  margin: 0 auto;
+  color: #999999;
+  font-size: 18px;
 }
 
-
-.page-break td{
-    height: 400px;
-    border: 1px solid #fff;
-    border-bottom: 1px solid #ADACAB;
+#page-yield h2 {
+  text-align: center;
 }
 
-
-.info-label{
-    float: right;
-    color: #555555;
-    font-size: 13px;
-    width: 140px;
+.page-break td {
+  height: 400px;
+  border: 1px solid #fff;
+  border-bottom: 1px solid #adacab;
 }
 
-.info-data{
-    float: right;
-    color: #32323A;
-    font-size: 13px;
+.info-label {
+  float: right;
+  color: #555555;
+  font-size: 13px;
+  width: 140px;
 }
 
-.info-data span{
-    color: #555555;
+.info-data {
+  float: right;
+  color: #32323a;
+  font-size: 13px;
 }
 
-
-.info{
-    width:700px;
-    overflow: auto;
-    margin-bottom: 10px;
+.info-data span {
+  color: #555555;
 }
 
-#pdf-info{
-    min-height: 900px;
-    margin-top: 20px;
+.info {
+  width: 700px;
+  overflow: auto;
+  margin-bottom: 10px;
 }
 
-
-#pdf-footer{
-    margin-top: -50px !important;
+#pdf-info {
+  min-height: 900px;
+  margin-top: 20px;
 }
 
+#pdf-footer {
+  margin-top: -50px !important;
+}
