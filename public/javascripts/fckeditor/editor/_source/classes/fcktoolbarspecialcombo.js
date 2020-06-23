@@ -28,119 +28,114 @@
  * 	-			CreateItems( targetSpecialCombo )	[ Add all items in the special combo ]
  */
 
-var FCKToolbarSpecialCombo = function()
-{
-	this.SourceView			= false ;
-	this.ContextSensitive	= true ;
-	this.FieldWidth			= null ;
-	this.PanelWidth			= null ;
-	this.PanelMaxHeight		= null ;
-	//this._LastValue			= null ;
+var FCKToolbarSpecialCombo = function () {
+  this.SourceView = false;
+  this.ContextSensitive = true;
+  this.FieldWidth = null;
+  this.PanelWidth = null;
+  this.PanelMaxHeight = null;
+  //this._LastValue			= null ;
+};
+
+FCKToolbarSpecialCombo.prototype.DefaultLabel = "";
+
+function FCKToolbarSpecialCombo_OnSelect(itemId, item) {
+  FCK.ToolbarSet.CurrentInstance.Commands.GetCommand(this.CommandName).Execute(
+    itemId,
+    item
+  );
 }
 
+FCKToolbarSpecialCombo.prototype.Create = function (targetElement) {
+  this._Combo = new FCKSpecialCombo(
+    this.GetLabel(),
+    this.FieldWidth,
+    this.PanelWidth,
+    this.PanelMaxHeight,
+    FCKBrowserInfo.IsIE
+      ? window
+      : FCKTools.GetElementWindow(targetElement).parent
+  );
 
-FCKToolbarSpecialCombo.prototype.DefaultLabel = '' ;
-
-function FCKToolbarSpecialCombo_OnSelect( itemId, item )
-{
-	FCK.ToolbarSet.CurrentInstance.Commands.GetCommand( this.CommandName ).Execute( itemId, item ) ;
-}
-
-FCKToolbarSpecialCombo.prototype.Create = function( targetElement )
-{
-	this._Combo = new FCKSpecialCombo( this.GetLabel(), this.FieldWidth, this.PanelWidth, this.PanelMaxHeight, FCKBrowserInfo.IsIE ? window : FCKTools.GetElementWindow( targetElement ).parent ) ;
-
-	/*
+  /*
 	this._Combo.FieldWidth		= this.FieldWidth		!= null ? this.FieldWidth		: 100 ;
 	this._Combo.PanelWidth		= this.PanelWidth		!= null ? this.PanelWidth		: 150 ;
 	this._Combo.PanelMaxHeight	= this.PanelMaxHeight	!= null ? this.PanelMaxHeight	: 150 ;
 	*/
 
-	//this._Combo.Command.Name = this.Command.Name;
-//	this._Combo.Label	= this.Label ;
-	this._Combo.Tooltip	= this.Tooltip ;
-	this._Combo.Style	= this.Style ;
+  //this._Combo.Command.Name = this.Command.Name;
+  //	this._Combo.Label	= this.Label ;
+  this._Combo.Tooltip = this.Tooltip;
+  this._Combo.Style = this.Style;
 
-	this.CreateItems( this._Combo ) ;
+  this.CreateItems(this._Combo);
 
-	this._Combo.Create( targetElement ) ;
+  this._Combo.Create(targetElement);
 
-	this._Combo.CommandName = this.CommandName ;
+  this._Combo.CommandName = this.CommandName;
 
-	this._Combo.OnSelect = FCKToolbarSpecialCombo_OnSelect ;
+  this._Combo.OnSelect = FCKToolbarSpecialCombo_OnSelect;
+};
+
+function FCKToolbarSpecialCombo_RefreshActiveItems(combo, value) {
+  combo.DeselectAll();
+  combo.SelectItem(value);
+  combo.SetLabelById(value);
 }
 
-function FCKToolbarSpecialCombo_RefreshActiveItems( combo, value )
-{
-	combo.DeselectAll() ;
-	combo.SelectItem( value ) ;
-	combo.SetLabelById( value ) ;
-}
+FCKToolbarSpecialCombo.prototype.RefreshState = function () {
+  // Gets the actual state.
+  var eState;
 
-FCKToolbarSpecialCombo.prototype.RefreshState = function()
-{
-	// Gets the actual state.
-	var eState ;
+  //	if ( FCK.EditMode == FCK_EDITMODE_SOURCE && ! this.SourceView )
+  //		eState = FCK_TRISTATE_DISABLED ;
+  //	else
+  //	{
+  var sValue = FCK.ToolbarSet.CurrentInstance.Commands.GetCommand(
+    this.CommandName
+  ).GetState();
 
-//	if ( FCK.EditMode == FCK_EDITMODE_SOURCE && ! this.SourceView )
-//		eState = FCK_TRISTATE_DISABLED ;
-//	else
-//	{
-		var sValue = FCK.ToolbarSet.CurrentInstance.Commands.GetCommand( this.CommandName ).GetState() ;
+  //		FCKDebug.Output( 'RefreshState of Special Combo "' + this.TypeOf + '" - State: ' + sValue ) ;
 
-//		FCKDebug.Output( 'RefreshState of Special Combo "' + this.TypeOf + '" - State: ' + sValue ) ;
+  if (sValue != FCK_TRISTATE_DISABLED) {
+    eState = FCK_TRISTATE_ON;
 
-		if ( sValue != FCK_TRISTATE_DISABLED )
-		{
-			eState = FCK_TRISTATE_ON ;
+    if (this.RefreshActiveItems) this.RefreshActiveItems(this._Combo, sValue);
+    else {
+      if (this._LastValue !== sValue) {
+        this._LastValue = sValue;
 
-			if ( this.RefreshActiveItems )
-				this.RefreshActiveItems( this._Combo, sValue ) ;
-			else
-			{
-				if ( this._LastValue !== sValue)
-				{
-					this._LastValue = sValue ;
+        if (!sValue || sValue.length == 0) {
+          this._Combo.DeselectAll();
+          this._Combo.SetLabel(this.DefaultLabel);
+        } else FCKToolbarSpecialCombo_RefreshActiveItems(this._Combo, sValue);
+      }
+    }
+  } else eState = FCK_TRISTATE_DISABLED;
+  //	}
 
-					if ( !sValue || sValue.length == 0 )
-					{
-						this._Combo.DeselectAll() ;
-						this._Combo.SetLabel( this.DefaultLabel ) ;
-					}
-					else
-						FCKToolbarSpecialCombo_RefreshActiveItems( this._Combo, sValue ) ;
-				}
-			}
-		}
-		else
-			eState = FCK_TRISTATE_DISABLED ;
-//	}
+  // If there are no state changes then do nothing and return.
+  if (eState == this.State) return;
 
-	// If there are no state changes then do nothing and return.
-	if ( eState == this.State ) return ;
+  if (eState == FCK_TRISTATE_DISABLED) {
+    this._Combo.DeselectAll();
+    this._Combo.SetLabel("");
+  }
 
-	if ( eState == FCK_TRISTATE_DISABLED )
-	{
-		this._Combo.DeselectAll() ;
-		this._Combo.SetLabel( '' ) ;
-	}
+  // Sets the actual state.
+  this.State = eState;
 
-	// Sets the actual state.
-	this.State = eState ;
+  // Updates the graphical state.
+  this._Combo.SetEnabled(eState != FCK_TRISTATE_DISABLED);
+};
 
-	// Updates the graphical state.
-	this._Combo.SetEnabled( eState != FCK_TRISTATE_DISABLED ) ;
-}
+FCKToolbarSpecialCombo.prototype.Enable = function () {
+  this.RefreshState();
+};
 
-FCKToolbarSpecialCombo.prototype.Enable = function()
-{
-	this.RefreshState() ;
-}
-
-FCKToolbarSpecialCombo.prototype.Disable = function()
-{
-	this.State = FCK_TRISTATE_DISABLED ;
-	this._Combo.DeselectAll() ;
-	this._Combo.SetLabel( '' ) ;
-	this._Combo.SetEnabled( false ) ;
-}
+FCKToolbarSpecialCombo.prototype.Disable = function () {
+  this.State = FCK_TRISTATE_DISABLED;
+  this._Combo.DeselectAll();
+  this._Combo.SetLabel("");
+  this._Combo.SetEnabled(false);
+};

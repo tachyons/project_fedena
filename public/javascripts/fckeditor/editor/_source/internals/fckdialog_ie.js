@@ -21,28 +21,37 @@
  * Dialog windows operations. (IE specific implementations)
  */
 
-FCKDialog.Show = function( dialogInfo, dialogName, pageUrl, dialogWidth, dialogHeight, parentWindow, resizable )
-{
-	if ( !parentWindow )
-		parentWindow = window ;
+FCKDialog.Show = function (
+  dialogInfo,
+  dialogName,
+  pageUrl,
+  dialogWidth,
+  dialogHeight,
+  parentWindow,
+  resizable
+) {
+  if (!parentWindow) parentWindow = window;
 
-	var sOptions = 'help:no;scroll:no;status:no' +
-		';resizable:'  + ( resizable ? 'yes' : 'no' ) +
-		';dialogWidth:' + dialogWidth + 'px' +
-		';dialogHeight:' + dialogHeight + 'px' ;
+  var sOptions =
+    "help:no;scroll:no;status:no" +
+    ";resizable:" +
+    (resizable ? "yes" : "no") +
+    ";dialogWidth:" +
+    dialogWidth +
+    "px" +
+    ";dialogHeight:" +
+    dialogHeight +
+    "px";
 
-	FCKFocusManager.Lock() ;
+  FCKFocusManager.Lock();
 
-	var oReturn = 'B' ;
+  var oReturn = "B";
 
-	try
-	{
-		oReturn = parentWindow.showModalDialog( pageUrl, dialogInfo, sOptions ) ;
-	}
-	catch( e ) {}
+  try {
+    oReturn = parentWindow.showModalDialog(pageUrl, dialogInfo, sOptions);
+  } catch (e) {}
 
-	if ( 'B' === oReturn )
-		alert( FCKLang.DialogBlocked ) ;
+  if ("B" === oReturn) alert(FCKLang.DialogBlocked);
 
-	FCKFocusManager.Unlock() ;
-}
+  FCKFocusManager.Unlock();
+};

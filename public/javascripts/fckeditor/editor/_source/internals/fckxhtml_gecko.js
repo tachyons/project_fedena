@@ -22,80 +22,65 @@
  * Gecko specific.
  */
 
-FCKXHtml._GetMainXmlString = function()
-{
-	return ( new XMLSerializer() ).serializeToString( this.MainNode ) ;
-}
+FCKXHtml._GetMainXmlString = function () {
+  return new XMLSerializer().serializeToString(this.MainNode);
+};
 
-FCKXHtml._AppendAttributes = function( xmlNode, htmlNode, node )
-{
-	var aAttributes = htmlNode.attributes ;
+FCKXHtml._AppendAttributes = function (xmlNode, htmlNode, node) {
+  var aAttributes = htmlNode.attributes;
 
-	for ( var n = 0 ; n < aAttributes.length ; n++ )
-	{
-		var oAttribute = aAttributes[n] ;
+  for (var n = 0; n < aAttributes.length; n++) {
+    var oAttribute = aAttributes[n];
 
-		if ( oAttribute.specified )
-		{
-			var sAttName = oAttribute.nodeName.toLowerCase() ;
-			var sAttValue ;
+    if (oAttribute.specified) {
+      var sAttName = oAttribute.nodeName.toLowerCase();
+      var sAttValue;
 
-			// Ignore any attribute starting with "_fck".
-			if ( sAttName.StartsWith( '_fck' ) )
-				continue ;
-			// There is a bug in Mozilla that returns '_moz_xxx' attributes as specified.
-			else if ( sAttName.indexOf( '_moz' ) == 0 )
-				continue ;
-			// There are one cases (on Gecko) when the oAttribute.nodeValue must be used:
-			//		- for the "class" attribute
-			else if ( sAttName == 'class' )
-			{
-				sAttValue = oAttribute.nodeValue.replace( FCKRegexLib.FCK_Class, '' ) ;
-				if ( sAttValue.length == 0 )
-					continue ;
-			}
-			// XHTML doens't support attribute minimization like "CHECKED". It must be transformed to checked="checked".
-			else if ( oAttribute.nodeValue === true )
-				sAttValue = sAttName ;
-			else
-				sAttValue = htmlNode.getAttribute( sAttName, 2 ) ;	// We must use getAttribute to get it exactly as it is defined.
+      // Ignore any attribute starting with "_fck".
+      if (sAttName.StartsWith("_fck")) continue;
+      // There is a bug in Mozilla that returns '_moz_xxx' attributes as specified.
+      else if (sAttName.indexOf("_moz") == 0) continue;
+      // There are one cases (on Gecko) when the oAttribute.nodeValue must be used:
+      //		- for the "class" attribute
+      else if (sAttName == "class") {
+        sAttValue = oAttribute.nodeValue.replace(FCKRegexLib.FCK_Class, "");
+        if (sAttValue.length == 0) continue;
+      }
+      // XHTML doens't support attribute minimization like "CHECKED". It must be transformed to checked="checked".
+      else if (oAttribute.nodeValue === true) sAttValue = sAttName;
+      else sAttValue = htmlNode.getAttribute(sAttName, 2); // We must use getAttribute to get it exactly as it is defined.
 
-			this._AppendAttribute( node, sAttName, sAttValue ) ;
-		}
-	}
-}
+      this._AppendAttribute(node, sAttName, sAttValue);
+    }
+  }
+};
 
-if ( FCKBrowserInfo.IsOpera )
-{
-	// Opera moves the <FCK:meta> element outside head (#1166).
+if (FCKBrowserInfo.IsOpera) {
+  // Opera moves the <FCK:meta> element outside head (#1166).
 
-	// Save a reference to the XML <head> node, so we can use it for
-	// orphan <meta>s.
-	FCKXHtml.TagProcessors['head'] = function( node, htmlNode )
-	{
-		FCKXHtml.XML._HeadElement = node ;
+  // Save a reference to the XML <head> node, so we can use it for
+  // orphan <meta>s.
+  FCKXHtml.TagProcessors["head"] = function (node, htmlNode) {
+    FCKXHtml.XML._HeadElement = node;
 
-		node = FCKXHtml._AppendChildNodes( node, htmlNode, true ) ;
+    node = FCKXHtml._AppendChildNodes(node, htmlNode, true);
 
-		return node ;
-	}
+    return node;
+  };
 
-	// Check whether a <meta> element is outside <head>, and move it to the
-	// proper place.
-	FCKXHtml.TagProcessors['meta'] = function( node, htmlNode, xmlNode )
-	{
-		if ( htmlNode.parentNode.nodeName.toLowerCase() != 'head' )
-		{
-			var headElement = FCKXHtml.XML._HeadElement ;
+  // Check whether a <meta> element is outside <head>, and move it to the
+  // proper place.
+  FCKXHtml.TagProcessors["meta"] = function (node, htmlNode, xmlNode) {
+    if (htmlNode.parentNode.nodeName.toLowerCase() != "head") {
+      var headElement = FCKXHtml.XML._HeadElement;
 
-			if ( headElement && xmlNode != headElement )
-			{
-				delete htmlNode._fckxhtmljob ;
-				FCKXHtml._AppendNode( headElement, htmlNode ) ;
-				return null ;
-			}
-		}
+      if (headElement && xmlNode != headElement) {
+        delete htmlNode._fckxhtmljob;
+        FCKXHtml._AppendNode(headElement, htmlNode);
+        return null;
+      }
+    }
 
-		return node ;
-	}
+    return node;
+  };
 }

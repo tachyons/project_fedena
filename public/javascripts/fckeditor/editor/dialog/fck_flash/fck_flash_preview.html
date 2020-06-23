@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <!--
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2008 Frederico Caldeira Knabben
@@ -22,29 +22,31 @@
  * Preview page for the Flash dialog window.
 -->
 <html>
-	<head>
-		<title></title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<meta name="robots" content="noindex, nofollow">
-		<script src="../common/fck_dialog_common.js" type="text/javascript"></script>
-		<script language="javascript">
+  <head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <script
+      src="../common/fck_dialog_common.js"
+      type="text/javascript"
+    ></script>
+    <script language="javascript">
+      var FCKTools = window.parent.FCKTools;
+      var FCKConfig = window.parent.FCKConfig;
 
-var FCKTools	= window.parent.FCKTools ;
-var FCKConfig	= window.parent.FCKConfig ;
+      // Sets the Skin CSS
+      document.write(FCKTools.GetStyleHtml(FCKConfig.SkinDialogCSS));
+      document.write(FCKTools.GetStyleHtml(GetCommonDialogCss("../")));
 
-// Sets the Skin CSS
-document.write( FCKTools.GetStyleHtml( FCKConfig.SkinDialogCSS ) ) ;
-document.write( FCKTools.GetStyleHtml( GetCommonDialogCss( '../' ) ) ) ;
+      if (window.parent.FCKConfig.BaseHref.length > 0)
+        document.write(
+          '<base href="' + window.parent.FCKConfig.BaseHref + '">'
+        );
 
-if ( window.parent.FCKConfig.BaseHref.length > 0 )
-	document.write( '<base href="' + window.parent.FCKConfig.BaseHref + '">' ) ;
-
-window.onload = function()
-{
-	window.parent.SetPreviewElement( document.body ) ;
-}
-
-		</script>
-	</head>
-	<body style="COLOR: #000000; BACKGROUND-COLOR: #ffffff"></body>
+      window.onload = function () {
+        window.parent.SetPreviewElement(document.body);
+      };
+    </script>
+  </head>
+  <body style="color: #000000; background-color: #ffffff;"></body>
 </html>

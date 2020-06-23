@@ -22,199 +22,179 @@
  */
 
 // Get the selection type (like document.select.type in IE).
-FCKSelection.GetType = function()
-{
-	// By default set the type to "Text".
-	var type = 'Text' ;
+FCKSelection.GetType = function () {
+  // By default set the type to "Text".
+  var type = "Text";
 
-	// Check if the actual selection is a Control (IMG, TABLE, HR, etc...).
+  // Check if the actual selection is a Control (IMG, TABLE, HR, etc...).
 
-	var sel ;
-	try { sel = this.GetSelection() ; } catch (e) {}
+  var sel;
+  try {
+    sel = this.GetSelection();
+  } catch (e) {}
 
-	if ( sel && sel.rangeCount == 1 )
-	{
-		var range = sel.getRangeAt(0) ;
-		if ( range.startContainer == range.endContainer
-			&& ( range.endOffset - range.startOffset ) == 1
-			&& range.startContainer.nodeType == 1
-			&& FCKListsLib.StyleObjectElements[ range.startContainer.childNodes[ range.startOffset ].nodeName.toLowerCase() ] )
-		{
-			type = 'Control' ;
-		}
-	}
+  if (sel && sel.rangeCount == 1) {
+    var range = sel.getRangeAt(0);
+    if (
+      range.startContainer == range.endContainer &&
+      range.endOffset - range.startOffset == 1 &&
+      range.startContainer.nodeType == 1 &&
+      FCKListsLib.StyleObjectElements[
+        range.startContainer.childNodes[
+          range.startOffset
+        ].nodeName.toLowerCase()
+      ]
+    ) {
+      type = "Control";
+    }
+  }
 
-	return type ;
-}
+  return type;
+};
 
 // Retrieves the selected element (if any), just in the case that a single
 // element (object like and image or a table) is selected.
-FCKSelection.GetSelectedElement = function()
-{
-	var selection = !!FCK.EditorWindow && this.GetSelection() ;
-	if ( !selection || selection.rangeCount < 1 )
-		return null ;
+FCKSelection.GetSelectedElement = function () {
+  var selection = !!FCK.EditorWindow && this.GetSelection();
+  if (!selection || selection.rangeCount < 1) return null;
 
-	var range = selection.getRangeAt( 0 ) ;
-	if ( range.startContainer != range.endContainer || range.startContainer.nodeType != 1 || range.startOffset != range.endOffset - 1 )
-		return null ;
+  var range = selection.getRangeAt(0);
+  if (
+    range.startContainer != range.endContainer ||
+    range.startContainer.nodeType != 1 ||
+    range.startOffset != range.endOffset - 1
+  )
+    return null;
 
-	var node = range.startContainer.childNodes[ range.startOffset ] ;
-	if ( node.nodeType != 1 )
-		return null ;
+  var node = range.startContainer.childNodes[range.startOffset];
+  if (node.nodeType != 1) return null;
 
-	return node ;
-}
+  return node;
+};
 
-FCKSelection.GetParentElement = function()
-{
-	if ( this.GetType() == 'Control' )
-		return FCKSelection.GetSelectedElement().parentNode ;
-	else
-	{
-		var oSel = this.GetSelection() ;
-		if ( oSel )
-		{
-			// make the common case fast - for collapsed/nearly collapsed selections just return anchor.parent.
-			if ( oSel.anchorNode && oSel.anchorNode == oSel.focusNode )
-				return oSel.anchorNode.parentNode ;
+FCKSelection.GetParentElement = function () {
+  if (this.GetType() == "Control")
+    return FCKSelection.GetSelectedElement().parentNode;
+  else {
+    var oSel = this.GetSelection();
+    if (oSel) {
+      // make the common case fast - for collapsed/nearly collapsed selections just return anchor.parent.
+      if (oSel.anchorNode && oSel.anchorNode == oSel.focusNode)
+        return oSel.anchorNode.parentNode;
 
-			// looks like we're having a large selection here. To make the behavior same as IE's TextRange.parentElement(),
-			// we need to find the nearest ancestor node which encapsulates both the beginning and the end of the selection.
-			// TODO: A simpler logic can be found.
-			var anchorPath = new FCKElementPath( oSel.anchorNode ) ;
-			var focusPath = new FCKElementPath( oSel.focusNode ) ;
-			var deepPath = null ;
-			var shallowPath = null ;
-			if ( anchorPath.Elements.length > focusPath.Elements.length )
-			{
-				deepPath = anchorPath.Elements ;
-				shallowPath = focusPath.Elements ;
-			}
-			else
-			{
-				deepPath = focusPath.Elements ;
-				shallowPath = anchorPath.Elements ;
-			}
+      // looks like we're having a large selection here. To make the behavior same as IE's TextRange.parentElement(),
+      // we need to find the nearest ancestor node which encapsulates both the beginning and the end of the selection.
+      // TODO: A simpler logic can be found.
+      var anchorPath = new FCKElementPath(oSel.anchorNode);
+      var focusPath = new FCKElementPath(oSel.focusNode);
+      var deepPath = null;
+      var shallowPath = null;
+      if (anchorPath.Elements.length > focusPath.Elements.length) {
+        deepPath = anchorPath.Elements;
+        shallowPath = focusPath.Elements;
+      } else {
+        deepPath = focusPath.Elements;
+        shallowPath = anchorPath.Elements;
+      }
 
-			var deepPathBase = deepPath.length - shallowPath.length ;
-			for( var i = 0 ; i < shallowPath.length ; i++)
-			{
-				if ( deepPath[deepPathBase + i] == shallowPath[i])
-					return shallowPath[i];
-			}
-			return null ;
-		}
-	}
-	return null ;
-}
+      var deepPathBase = deepPath.length - shallowPath.length;
+      for (var i = 0; i < shallowPath.length; i++) {
+        if (deepPath[deepPathBase + i] == shallowPath[i]) return shallowPath[i];
+      }
+      return null;
+    }
+  }
+  return null;
+};
 
-FCKSelection.GetBoundaryParentElement = function( startBoundary )
-{
-	if ( ! FCK.EditorWindow )
-		return null ;
-	if ( this.GetType() == 'Control' )
-		return FCKSelection.GetSelectedElement().parentNode ;
-	else
-	{
-		var oSel = this.GetSelection() ;
-		if ( oSel && oSel.rangeCount > 0 )
-		{
-			var range = oSel.getRangeAt( startBoundary ? 0 : ( oSel.rangeCount - 1 ) ) ;
+FCKSelection.GetBoundaryParentElement = function (startBoundary) {
+  if (!FCK.EditorWindow) return null;
+  if (this.GetType() == "Control")
+    return FCKSelection.GetSelectedElement().parentNode;
+  else {
+    var oSel = this.GetSelection();
+    if (oSel && oSel.rangeCount > 0) {
+      var range = oSel.getRangeAt(startBoundary ? 0 : oSel.rangeCount - 1);
 
-			var element = startBoundary ? range.startContainer : range.endContainer ;
+      var element = startBoundary ? range.startContainer : range.endContainer;
 
-			return ( element.nodeType == 1 ? element : element.parentNode ) ;
-		}
-	}
-	return null ;
-}
+      return element.nodeType == 1 ? element : element.parentNode;
+    }
+  }
+  return null;
+};
 
-FCKSelection.SelectNode = function( element )
-{
-	var oRange = FCK.EditorDocument.createRange() ;
-	oRange.selectNode( element ) ;
+FCKSelection.SelectNode = function (element) {
+  var oRange = FCK.EditorDocument.createRange();
+  oRange.selectNode(element);
 
-	var oSel = this.GetSelection() ;
-	oSel.removeAllRanges() ;
-	oSel.addRange( oRange ) ;
-}
+  var oSel = this.GetSelection();
+  oSel.removeAllRanges();
+  oSel.addRange(oRange);
+};
 
-FCKSelection.Collapse = function( toStart )
-{
-	var oSel = this.GetSelection() ;
+FCKSelection.Collapse = function (toStart) {
+  var oSel = this.GetSelection();
 
-	if ( toStart == null || toStart === true )
-		oSel.collapseToStart() ;
-	else
-		oSel.collapseToEnd() ;
-}
+  if (toStart == null || toStart === true) oSel.collapseToStart();
+  else oSel.collapseToEnd();
+};
 
 // The "nodeTagName" parameter must be Upper Case.
-FCKSelection.HasAncestorNode = function( nodeTagName )
-{
-	var oContainer = this.GetSelectedElement() ;
-	if ( ! oContainer && FCK.EditorWindow )
-	{
-		try		{ oContainer = this.GetSelection().getRangeAt(0).startContainer ; }
-		catch(e){}
-	}
+FCKSelection.HasAncestorNode = function (nodeTagName) {
+  var oContainer = this.GetSelectedElement();
+  if (!oContainer && FCK.EditorWindow) {
+    try {
+      oContainer = this.GetSelection().getRangeAt(0).startContainer;
+    } catch (e) {}
+  }
 
-	while ( oContainer )
-	{
-		if ( oContainer.nodeType == 1 && oContainer.tagName == nodeTagName ) return true ;
-		oContainer = oContainer.parentNode ;
-	}
+  while (oContainer) {
+    if (oContainer.nodeType == 1 && oContainer.tagName == nodeTagName)
+      return true;
+    oContainer = oContainer.parentNode;
+  }
 
-	return false ;
-}
+  return false;
+};
 
 // The "nodeTagName" parameter must be Upper Case.
-FCKSelection.MoveToAncestorNode = function( nodeTagName )
-{
-	var oNode ;
+FCKSelection.MoveToAncestorNode = function (nodeTagName) {
+  var oNode;
 
-	var oContainer = this.GetSelectedElement() ;
-	if ( ! oContainer )
-		oContainer = this.GetSelection().getRangeAt(0).startContainer ;
+  var oContainer = this.GetSelectedElement();
+  if (!oContainer)
+    oContainer = this.GetSelection().getRangeAt(0).startContainer;
 
-	while ( oContainer )
-	{
-		if ( oContainer.nodeName == nodeTagName )
-			return oContainer ;
+  while (oContainer) {
+    if (oContainer.nodeName == nodeTagName) return oContainer;
 
-		oContainer = oContainer.parentNode ;
-	}
-	return null ;
-}
+    oContainer = oContainer.parentNode;
+  }
+  return null;
+};
 
-FCKSelection.Delete = function()
-{
-	// Gets the actual selection.
-	var oSel = this.GetSelection() ;
+FCKSelection.Delete = function () {
+  // Gets the actual selection.
+  var oSel = this.GetSelection();
 
-	// Deletes the actual selection contents.
-	for ( var i = 0 ; i < oSel.rangeCount ; i++ )
-	{
-		oSel.getRangeAt(i).deleteContents() ;
-	}
+  // Deletes the actual selection contents.
+  for (var i = 0; i < oSel.rangeCount; i++) {
+    oSel.getRangeAt(i).deleteContents();
+  }
 
-	return oSel ;
-}
+  return oSel;
+};
 
 /**
  * Returns the native selection object.
  */
-FCKSelection.GetSelection = function()
-{
-	return FCK.EditorWindow.getSelection() ;
-}
+FCKSelection.GetSelection = function () {
+  return FCK.EditorWindow.getSelection();
+};
 
 // The following are IE only features (we don't need then in other browsers
 // currently).
-FCKSelection.Save = function()
-{}
-FCKSelection.Restore = function()
-{}
-FCKSelection.Release = function()
-{}
+FCKSelection.Save = function () {};
+FCKSelection.Restore = function () {};
+FCKSelection.Release = function () {};
