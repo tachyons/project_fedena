@@ -16,4 +16,4 @@ echo "MySQL database has been created & migrated!"
 rm -f tmp/pids/server.pid
 
 # Run the Rails server
-bundle exec ruby script/server puma -b 0.0.0.0 -p 8080
+bundle exec passenger start -b 0.0.0.0 -p 8080
