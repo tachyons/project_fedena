@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'i18n', '~> 0.4.2'
+gem 'i18n', '~> 0.6.8'
 # gem "searchlogic", "~> 2.3.5"
 gem 'wicked_pdf', "0.9.1"
 gem "activerecord-mysql2-adapter"
