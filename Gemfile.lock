@@ -33,7 +33,7 @@ GEM
     activerecord-mysql2-adapter (0.0.3)
       mysql2
     coderay (1.1.3)
-    database_cleaner (0.9.1)
+    database_cleaner (1.99.0)
     declarative_authorization (0.5.7)
     diff-lcs (1.5.0)
     factory_girl (2.6.4)
@@ -82,7 +82,7 @@ DEPENDENCIES
   activerecord-mysql2-adapter
   activeresource!
   activesupport!
-  database_cleaner (~> 0.9)
+  database_cleaner (~> 1.99)
   declarative_authorization (~> 0.5.1)
   factory_girl
   haml (~> 3.1)
