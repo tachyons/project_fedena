@@ -32,6 +32,6 @@ group :test do
   # bundler requires these gems while running tests
   gem 'rspec'
   gem 'factory_girl'
-  gem 'database_cleaner', "~> 0.9"
+  gem 'database_cleaner', "~> 1.99"
   gem 'test-unit'
 end
