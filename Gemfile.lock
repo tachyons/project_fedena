@@ -45,7 +45,7 @@ GEM
     passenger (6.0.12)
       rack
       rake (>= 0.8.1)
-    power_assert (2.0.1)
+    power_assert (2.0.2)
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -67,7 +67,7 @@ GEM
     rush (0.6.8)
       session
     session (3.2.0)
-    test-unit (3.5.3)
+    test-unit (3.5.7)
       power_assert
     wicked_pdf (0.9.1)
       rails
